@@ -13,15 +13,11 @@ import PostMap from "./PostMap";
 
 const styles = theme => ({
   card: {
-    maxWidth: 800,
+    width: 800,
+    margin: "10px",
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between"
-  },
-  cardContainer: {},
-  media: {
-    height: 0,
-    paddingTop: "56.25%" // 16:9
   },
   avatar: {
     backgroundColor: red[500]
@@ -35,12 +31,7 @@ const styles = theme => ({
 class Post extends React.Component {
   constructor() {
     super();
-    this.state = {
-      origin: "College dorm",
-      destination: "Dulles Airport",
-      time: "May 24 at 3:00pm",
-      name: "John Doe"
-    };
+    this.state = {};
   }
 
   render() {
@@ -48,21 +39,26 @@ class Post extends React.Component {
     return (
       <div>
         <Card className={classes.card}>
-          <div className={classes.cardContainer}>
+          <div>
             <CardHeader
               avatar={<Avatar aria-label="Name">N</Avatar>}
-              title={this.state.name}
-              subheader={this.state.time}
+              title={this.props.name}
+              subheader={this.props.time}
             />
             <CardContent>
-              <Typography paragraph>Origin: {this.state.origin}</Typography>
+              <Typography paragraph>Origin: {this.props.origin}</Typography>
               <Typography paragraph>
-                Destination: {this.state.destination}
+                Destination: {this.props.destination}
               </Typography>
             </CardContent>
           </div>
           <div id="map-container">
-            <PostMap />
+            <PostMap
+              origin={this.props.origin}
+              destination={this.props.destination}
+              originCoords={this.props.originCoords}
+              destinationCoords={this.props.destinationCoords}
+            />
           </div>
         </Card>
       </div>
