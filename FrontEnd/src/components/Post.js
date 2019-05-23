@@ -7,7 +7,6 @@ import CardHeader from "@material-ui/core/CardHeader";
 import CardContent from "@material-ui/core/CardContent";
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
-import red from "@material-ui/core/colors/red";
 
 import PostMap from "./PostMap";
 
@@ -18,9 +17,6 @@ const styles = theme => ({
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between"
-  },
-  avatar: {
-    backgroundColor: red[500]
   },
   mapContainer: {
     height: 200,
