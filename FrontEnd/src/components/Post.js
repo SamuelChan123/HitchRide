@@ -14,14 +14,10 @@ import PostMap from "./PostMap";
 const styles = theme => ({
   card: {
     width: 800,
+    margin: "10px",
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between"
-  },
-  cardContainer: {},
-  media: {
-    height: 0,
-    paddingTop: "56.25%" // 16:9
   },
   avatar: {
     backgroundColor: red[500]
@@ -43,7 +39,7 @@ class Post extends React.Component {
     return (
       <div>
         <Card className={classes.card}>
-          <div className={classes.cardContainer}>
+          <div>
             <CardHeader
               avatar={<Avatar aria-label="Name">N</Avatar>}
               title={this.props.name}
