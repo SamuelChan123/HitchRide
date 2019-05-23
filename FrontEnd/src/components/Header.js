@@ -18,9 +18,9 @@ const styles = theme => ({
   grow: {
     flexGrow: 1,
   },
-  menuButton: {
-    marginLeft: -12,
-    marginRight: 20,
+  searchButton: {
+    marginLeft: 20,
+    marginRight: -10,
   },
   title: {
     display: 'none',
@@ -78,53 +78,63 @@ class Header extends React.Component {
       <div className={classes.root}>
         <AppBar position="static">
           <Toolbar>
-            <IconButton className={classes.menuButton} color="inherit" aria-label="Open drawer">
-            </IconButton>
             <Typography className={classes.title} variant="h4" color="inherit" noWrap>
               <b>HitchRide</b>
             </Typography>
+
             <div className={classes.grow} />
+
             <div className={classes.search}>
               <InputBase
+                id="Origin"
                 placeholder="Origin"
                 classes={{
                   root: classes.inputRoot,
                   input: classes.inputInput,
                 }}
                 type="text"
+                required={true}
               />
             </div>
             <div className={classes.search}>
               <InputBase
+                id="Destination"
                 placeholder="Destination"
                 classes={{
                   root: classes.inputRoot,
                   input: classes.inputInput,
                 }}
                 type="text"
+                required={true}
               />
             </div>
             <div className={classes.search}>
               <InputBase
+                id="Date"
                 placeholder="Departure Date"
                 classes={{
                   root: classes.inputRoot,
                   input: classes.inputInput,
                 }}
                 type="date"
+                required={true}
               />
             </div>
             <div className={classes.search}>
               <InputBase
+                id="Time"
                 placeholder="Departure Time"
                 classes={{
                   root: classes.inputRoot,
                   input: classes.inputInput,
                 }}
                 type="time"
+                required={true}
               />
             </div>
-
+            <IconButton className={classes.searchButton} color="inherit" aria-label="Open drawer">
+              <img src={require('./icons/search.svg')}/>
+            </IconButton>
           </Toolbar>
         </AppBar>
       </div>

@@ -1,11 +1,12 @@
 import React from "react";
 import "./App.css";
 import Page from "./components/Page";
+import LocationSearchInput from "./components/LocationSearchInput"
 
 function App() {
   return (
     <div>
-      <Page />
+      <LocationSearchInput />
     </div>
   );
 }
