@@ -34,7 +34,7 @@ def home():
 def create_person():
     data = request.get_json()
     maxID = db.session.query(func.max(models.Person.id)).scalar() #gets current maximum ID in Person table
-    new_person = models.Person(id=maxID+1, name=data['name'], email=data['email'], password=data['person'], phone=data['phone'], rating=data['rating'])
+    new_person = models.Person(id=maxID+1, name=data['name'], email=data['email'], password=data['password'], phone=data['phone'], rating=data['rating'])
     db.session.add(new_person)
     db.session.commit()
     return jsonify({'message' : 'New user created!'})
@@ -53,6 +53,37 @@ def get_all_persons():
         person_data['rating'] = person.rating
         output.append(person_data)
     return jsonify({'persons' : output})
+
+#Inserting a row into the Entry table
+@app.route('/entry', methods=['POST'])
+def create_entry():
+    data = request.get_json()
+    maxID = db.session.query(func.max(models.Entry.id)).scalar() #gets current maximum ID in Entry table
+    new_entry = models.Entry(id=maxID+1, personId=data['personId'], origin=data['origin'], destination=data['destination'], startTime=data['starttime'], endTime=data['endtime'], radiusMiles=data['radiusmiles'], type=data['type'], comment=data['comment'])
+    db.session.add(new_entry)
+    db.session.commit()
+    return jsonify({'message' : 'New entry created!'})
+
+#Return all Entries
+@app.route('/entry', methods=['GET'])
+def get_all_entries():
+    entries = models.Entry.query.all()
+    output = []
+    for entry in entries:
+        entry_data = {}
+        entry_data['id'] = entry.id
+        entry_data['personId'] = entry.personId
+        entry_data['origin'] = entry.origin
+        entry_data['destination'] = entry.destination
+        entry_data['starttime'] = entry.startTime
+        entry_data['endtime'] = entry.endTime
+        entry_data['radiusmiles'] = entry.radiusMiles
+        entry_data['type'] = entry.type
+        entry_data['comment'] = entry.comment
+        output.append(entry_data)
+    return jsonify({'entries' : output})
+
+
 
 #Get one row in Person by ID
 @app.route('/person/<person_id>', methods=['GET'])
@@ -88,6 +119,8 @@ def delete_person(person_id):
     db.session.delete(person)
     db.session.commit()
     return jsonify({'message' : 'The user has been deleted!'})
+	
+	
 
 
 #Project proposal

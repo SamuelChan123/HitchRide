@@ -45,12 +45,14 @@ class Page extends React.Component {
     this.state = {};
   }
 
+
   render() {
     return (
       <div>
         <Header />
         <div style={styles.postContainer}>
-          {data.map(item => (
+          //filter to be changed later. This is just a POC
+          {data.filter(item => item.origin==="Omni Hotel").map(item => (
             <Post
               name={item.name}
               origin={item.origin}
