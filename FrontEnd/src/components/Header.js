@@ -59,7 +59,7 @@ const styles = theme => ({
     paddingTop: theme.spacing.unit,
     paddingRight: theme.spacing.unit,
     paddingBottom: theme.spacing.unit,
-    paddingLeft: theme.spacing.unit * 10,
+    paddingLeft: theme.spacing.unit,
     transition: theme.transitions.create('width'),
     width: '100%',
     [theme.breakpoints.up('sm')]: {
@@ -76,29 +76,58 @@ class Header extends React.Component {
     const { classes } = this.props;
     return (
       <div className={classes.root}>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton className={classes.menuButton} color="inherit" aria-label="Open drawer">
-          </IconButton>
-          <Typography className={classes.title} variant="h4" color="inherit" noWrap>
-            <b>HitchRide</b>
-          </Typography>
-          <div className={classes.grow} />
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <img src={require('./icons/search.svg')}/>
+        <AppBar position="static">
+          <Toolbar>
+            <IconButton className={classes.menuButton} color="inherit" aria-label="Open drawer">
+            </IconButton>
+            <Typography className={classes.title} variant="h4" color="inherit" noWrap>
+              <b>HitchRide</b>
+            </Typography>
+            <div className={classes.grow} />
+            <div className={classes.search}>
+              <InputBase
+                placeholder="Origin"
+                classes={{
+                  root: classes.inputRoot,
+                  input: classes.inputInput,
+                }}
+                type="text"
+              />
             </div>
-            <InputBase
-              placeholder="Search…"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-            />
-          </div>
-        </Toolbar>
-      </AppBar>
-    </div>
+            <div className={classes.search}>
+              <InputBase
+                placeholder="Destination"
+                classes={{
+                  root: classes.inputRoot,
+                  input: classes.inputInput,
+                }}
+                type="text"
+              />
+            </div>
+            <div className={classes.search}>
+              <InputBase
+                placeholder="Departure Date"
+                classes={{
+                  root: classes.inputRoot,
+                  input: classes.inputInput,
+                }}
+                type="date"
+              />
+            </div>
+            <div className={classes.search}>
+              <InputBase
+                placeholder="Departure Time"
+                classes={{
+                  root: classes.inputRoot,
+                  input: classes.inputInput,
+                }}
+                type="time"
+              />
+            </div>
+
+          </Toolbar>
+        </AppBar>
+      </div>
     );
   }
 }
