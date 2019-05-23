@@ -21,7 +21,7 @@ CREATE TABLE Groups
    -- IF NEW.id IN(SELECT entry FROM table)
    --   THEN RAISE EXCEPTION '';
    -- END IF;
-   -- RETURN NEW;
+   RETURN NEW;
  END;
  $$ LANGUAGE plpgsql;
 
