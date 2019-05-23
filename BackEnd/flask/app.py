@@ -22,8 +22,9 @@ CORS(app)
 @app.route('/')
 def home():
     persons = db.session.query(models.Person).all()
-    projects = db.session.query(models.ProjectInfo).all()
-    return render_template('all-persons.html', persons = persons, projects = projects)
+    entries = db.session.query(models.Entry).all()
+    return jsonify({'message' : 'New user created!'})
+ # return render_template('all-persons.html', persons = persons, projects = projects)
 
 #RESTFUL API methods
 
