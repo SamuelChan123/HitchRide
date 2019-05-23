@@ -117,6 +117,8 @@ def delete_person(person_id):
     db.session.delete(person)
     db.session.commit()
     return jsonify({'message' : 'The user has been deleted!'})
+	
+	
 
 
 #Project proposal
