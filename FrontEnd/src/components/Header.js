@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import LocationSearchInput from "./LocationSearchInput";
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -84,29 +85,11 @@ class Header extends React.Component {
 
             <div className={classes.grow} />
 
-            <div className={classes.search}>
-              <InputBase
-                id="Origin"
-                placeholder="Origin"
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput,
-                }}
-                type="text"
-                required={true}
-              />
+            <div>
+              <LocationSearchInput />
             </div>
-            <div className={classes.search}>
-              <InputBase
-                id="Destination"
-                placeholder="Destination"
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput,
-                }}
-                type="text"
-                required={true}
-              />
+            <div>
+              <LocationSearchInput />
             </div>
             <div className={classes.search}>
               <InputBase
