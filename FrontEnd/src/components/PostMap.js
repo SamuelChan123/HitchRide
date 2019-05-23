@@ -1,34 +1,33 @@
 import React from "react";
-import ReactDOM from "react";
 import { Map, TileLayer, Marker, Popup } from "react-leaflet";
 
 class PostMap extends React.Component {
   constructor() {
     super();
     this.state = {
-      lat: 51.505,
-      lng: -0.09,
-      zoom: 13
+      zoom: 10
     };
   }
-
   render() {
-    const position = [this.state.lat, this.state.lng];
     return (
-      <Map center={position} zoom={this.state.zoom}>
+      <Map
+        center={this.props.originCoords}
+        zoom={this.state.zoom}
+        bounds={[this.props.originCoords, this.props.destinationCoords]}
+      >
         <TileLayer
           attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
           url="https://{s}.tile.osm.org/{z}/{x}/{y}.png"
         />
-        <Marker position={position}>
-          <Popup>
-            A pretty CSS3 popup. <br /> Easily customizable.
-          </Popup>
+        <Marker position={this.props.originCoords}>
+          <Popup>{this.props.origin}</Popup>
+        </Marker>
+        <Marker position={this.props.destinationCoords}>
+          <Popup>{this.props.destination}</Popup>
         </Marker>
       </Map>
     );
   }
 }
 
-// ReactDOM.render(<PostMap />, document.getElementById("map-container"));
 export default PostMap;

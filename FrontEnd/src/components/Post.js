@@ -39,7 +39,9 @@ class Post extends React.Component {
       origin: "College dorm",
       destination: "Dulles Airport",
       time: "May 24 at 3:00pm",
-      name: "John Doe"
+      name: "John Doe",
+      originCoords: [51.505, -0.09],
+      destinationCoords: [51.555, -0.09]
     };
   }
 
@@ -62,7 +64,12 @@ class Post extends React.Component {
             </CardContent>
           </div>
           <div id="map-container">
-            <PostMap />
+            <PostMap
+              origin={this.state.origin}
+              destination={this.state.destination}
+              originCoords={this.state.originCoords}
+              destinationCoords={this.state.destinationCoords}
+            />
           </div>
         </Card>
       </div>
