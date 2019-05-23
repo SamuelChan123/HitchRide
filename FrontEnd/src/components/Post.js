@@ -9,36 +9,63 @@ import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
 import red from "@material-ui/core/colors/red";
 
+import PostMap from "./PostMap";
+
 const styles = theme => ({
   card: {
-    maxWidth: 800
+    maxWidth: 800,
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between"
   },
+  cardContainer: {},
   media: {
     height: 0,
     paddingTop: "56.25%" // 16:9
   },
-  actions: {
-    display: "flex"
-  },
   avatar: {
     backgroundColor: red[500]
+  },
+  mapContainer: {
+    height: 200,
+    width: 200
   }
 });
 
 class Post extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      origin: "College dorm",
+      destination: "Dulles Airport",
+      time: "May 24 at 3:00pm",
+      name: "John Doe"
+    };
+  }
+
   render() {
     const { classes } = this.props;
     return (
-      <Card className={classes.card}>
-        <CardHeader
-          avatar={<Avatar aria-label="Name">N</Avatar>}
-          title="John Doe"
-          subheader="May 24 at 3:00pm"
-        />
-        <CardContent>
-          <Typography paragraph>Hello world.</Typography>
-        </CardContent>
-      </Card>
+      <div>
+        <Card className={classes.card}>
+          <div className={classes.cardContainer}>
+            <CardHeader
+              avatar={<Avatar aria-label="Name">N</Avatar>}
+              title={this.state.name}
+              subheader={this.state.time}
+            />
+            <CardContent>
+              <Typography paragraph>Origin: {this.state.origin}</Typography>
+              <Typography paragraph>
+                Destination: {this.state.destination}
+              </Typography>
+            </CardContent>
+          </div>
+          <div id="map-container">
+            <PostMap />
+          </div>
+        </Card>
+      </div>
     );
   }
 }
