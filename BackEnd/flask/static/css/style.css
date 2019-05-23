@@ -1,0 +1,12 @@
+body {
+    color: black;
+    background: white;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+a {
+  color: black;
+  background: white;
+  font-family: Times;
+  font-size: 24;
+}

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Flask React Tutorial</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.2/react.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.2/JSXTransformer.js"></script>
+</head>
+<body>
+
+  <script type="text/jsx">
+     /*** @jsx React.DOM */
+    var FirstComponent = React.createClass({
+        render: function() {
+            return (
+
+              <div>
+              <div id="mount-point"></div>
+
+              {% extends 'layout.html' %}
+              {% block heading %}All Users{% endblock %}
+              {% block content %}
+              <ul>
+                {% for person in persons %}
+                <li><a href="{{url_for('person', name=person.name)}}">{{person.name}}</a></li>
+                {% endfor %}
+              </ul>
+              <hr/>
+              <p>{{persons|length}} person{{persons|length|pluralize}}
+                found in the database.</p>
+                <ul>
+                  {% for project in projects %}
+                  <li><a href="{{url_for('project', name=project.name)}}">{{project.name}}</a></li>
+                  {% endfor %}
+                </ul>
+                <hr/>
+                <p>{{projects|length}} project{{projects|length|pluralize}}
+                  found in the database.</p>
+
+              {% endblock %}
+
+            </div>
+
+            );
+        }
+    });
+    React.render(<FirstComponent />, document.getElementById('mount-point') );
+     </script>
+
+
+</body>
+
+
+</html>
