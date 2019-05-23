@@ -10,8 +10,4 @@ class ProjectEditFormFactory:
             name = StringField(default=ProjectInfo.name)
             num_spots = IntegerField(default=ProjectInfo.num_spots)
 
-
-
-
-
         return F()

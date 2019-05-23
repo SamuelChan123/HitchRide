@@ -29,12 +29,12 @@
               <p>{{persons|length}} person{{persons|length|pluralize}}
                 found in the database.</p>
                 <ul>
-                  {% for project in projects %}
-                  <li><a href="{{url_for('project', name=project.name)}}">{{project.name}}</a></li>
+                  {% for entry in entries %}
+                  <li><a href="{{url_for('entry', id=entry.id)}}">{{entry.personId}}</a></li>
                   {% endfor %}
                 </ul>
                 <hr/>
-                <p>{{projects|length}} project{{projects|length|pluralize}}
+                <p>{{entries|length}} entry{{entries|length|pluralize}}
                   found in the database.</p>
 
               {% endblock %}

@@ -19,11 +19,11 @@ app.config.from_object('config')
 db = SQLAlchemy(app, session_options={'autocommit': False})
 CORS(app)
 
-@app.route('/')
+@app.route('/', methods=['GET'])
 def home():
     persons = db.session.query(models.Person).all()
-    projects = db.session.query(models.ProjectInfo).all()
-    return render_template('all-persons.html', persons = persons, projects = projects)
+    entries = db.session.query(models.Entry).all()
+    return render_template('all-persons.html', persons = persons, entries = entries)
 
 #RESTFUL API methods
 
@@ -32,7 +32,7 @@ def home():
 def create_person():
     data = request.get_json()
     maxID = db.session.query(func.max(models.Person.id)).scalar() #gets current maximum ID in Person table
-    new_person = models.Person(id=maxID+1, name=data['name'], email=data['email'], password=data['person'], phone=data['phone'], admin=False)
+    new_person = models.Person(id=maxID+1, name=data['name'], email=data['email'], password=data['person'], phone=data['phone'], rating=data['rating'])
     db.session.add(new_person)
     db.session.commit()
     return jsonify({'message' : 'New user created!'})
@@ -48,6 +48,7 @@ def get_all_persons():
         person_data['name'] = person.name
         person_data['email'] = person.email
         person_data['phone'] = person.phone
+        person_data['rating'] = person.rating
         output.append(person_data)
     return jsonify({'persons' : output})
 
@@ -65,6 +66,8 @@ def get_one_person(person_id):
         person_data['name'] = person.name
         person_data['email'] = person.email
         person_data['phone'] = person.phone
+        person_data['rating'] = person.rating
+
         return jsonify({'person' : person_data})
 
 # Delete a Person: in the future, the "admin" row in Person table will be used to determine whether a user (Person) has access to deletion

@@ -11,31 +11,29 @@ class Person(db.Model):
     email = db.Column('email', db.String(64))
     password = db.Column('password', db.String(64))
     phone = db.Column('phone', db.String(32))
-    rating = db.Column('rating', db.Boolean())
-
-    # leadInfo = orm.relationship('LeadInfo')
-    # studentInfo = orm.relationship('StudentInfo')
+    rating = db.Column('rating', db.Float())
 
 #-------------------------------------------------------------------------------
 class Entry(db.Model):
-    __tablename__ = 'entry'
+    __tablename = 'entry'
 
-    department = db.Column('department', db.String(64), primary_key=True)
+    id = db.Column('id', db.Integer(), primary_key=True)
+    personId = db.Column('personid', db.Integer(), db.ForeignKey('person.id'), unique=True)
+    origin = db.Column('origin',db.Float())
+    destination = db.Column('destination', db.Float())
+    startTime = db.Column('starttime', db.TIMESTAMP())
+    endTime = db.Column('endtime', db.TIMESTAMP())
+    radiusMiles = db.Column('radiusmiles', db.Float())
+    type = db.Column('type', db.String(32))
+    comment = db.Column('comment', db.String(64))
 
-    # leaddept = orm.relationship('LeadDept')
-    # scholars = orm.relationship('Scholars')
+    person = orm.relationship('Person', backref='entry')
 
 #-------------------------------------------------------------------------------
 class Groups(db.Model):
     __tablename__ = 'groups'
 
-    id = db.Column('id', db.Integer(), db.ForeignKey('person.id'),
-                                            primary_key=True)
-    website = db.Column('website', db.String(64))
-    person = orm.relationship('Person', backref='leadinfo')
-    # leaddept = orm.relationship('LeadDept')
-    #projectinfo = orm.relationship('ProjectInfo')
-    #person = orm.relationship('Person')
-    #not sure whether to put above relationship in LeadInfo or in Person
+    id = db.Column('id', db.Integer(), unique = True, primary_key=True)
+    group_members = db.Column('group_members', db.String(128))
 
 #-------------------------------------------------------------------------------
