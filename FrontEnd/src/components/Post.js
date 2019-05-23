@@ -41,7 +41,16 @@ class Post extends React.Component {
         <Card className={classes.card}>
           <div>
             <CardHeader
-              avatar={<Avatar aria-label="Name">N</Avatar>}
+              avatar={
+                <Avatar aria-label="Name">
+                  {this.props.name[0] +
+                    this.props.name
+                      .trim()
+                      .split(" ")
+                      .slice(-1)[0][0]
+                      .toUpperCase()}
+                </Avatar>
+              }
               title={this.props.name}
               subheader={this.props.time}
             />
