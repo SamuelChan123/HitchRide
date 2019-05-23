@@ -23,7 +23,8 @@ CORS(app)
 def home():
     persons = db.session.query(models.Person).all()
     entries = db.session.query(models.Entry).all()
-    return render_template('all-persons.html', persons = persons, entries = entries)
+    groups = db.session.query(models.Groups).all()
+    return render_template('all-persons.html', persons = persons, entries = entries, groups = groups)
 
 #RESTFUL API methods
 
