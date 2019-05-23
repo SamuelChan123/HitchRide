@@ -11,5 +11,5 @@ fi
 createdb $dbname
 
 cd $mybase
-#psql -af create.sql $dbname
-#psql -af load.sql $dbname
+psql -af create.sql $dbname
+psql -af load.sql $dbname
