@@ -7,24 +7,16 @@ import CardHeader from "@material-ui/core/CardHeader";
 import CardContent from "@material-ui/core/CardContent";
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
-import red from "@material-ui/core/colors/red";
 
 import PostMap from "./PostMap";
 
 const styles = theme => ({
   card: {
-    maxWidth: 800,
+    width: 800,
+    margin: "10px",
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between"
-  },
-  cardContainer: {},
-  media: {
-    height: 0,
-    paddingTop: "56.25%" // 16:9
-  },
-  avatar: {
-    backgroundColor: red[500]
   },
   mapContainer: {
     height: 200,
@@ -35,14 +27,7 @@ const styles = theme => ({
 class Post extends React.Component {
   constructor() {
     super();
-    this.state = {
-      origin: "College dorm",
-      destination: "Dulles Airport",
-      time: "May 24 at 3:00pm",
-      name: "John Doe",
-      originCoords: [51.505, -0.09],
-      destinationCoords: [51.555, -0.09]
-    };
+    this.state = {};
   }
 
   render() {
@@ -50,25 +35,34 @@ class Post extends React.Component {
     return (
       <div>
         <Card className={classes.card}>
-          <div className={classes.cardContainer}>
+          <div>
             <CardHeader
-              avatar={<Avatar aria-label="Name">N</Avatar>}
-              title={this.state.name}
-              subheader={this.state.time}
+              avatar={
+                <Avatar aria-label="Name">
+                  {this.props.name[0] +
+                    this.props.name
+                      .trim()
+                      .split(" ")
+                      .slice(-1)[0][0]
+                      .toUpperCase()}
+                </Avatar>
+              }
+              title={this.props.name}
+              subheader={this.props.time}
             />
             <CardContent>
-              <Typography paragraph>Origin: {this.state.origin}</Typography>
+              <Typography paragraph>Origin: {this.props.origin}</Typography>
               <Typography paragraph>
-                Destination: {this.state.destination}
+                Destination: {this.props.destination}
               </Typography>
             </CardContent>
           </div>
           <div id="map-container">
             <PostMap
-              origin={this.state.origin}
-              destination={this.state.destination}
-              originCoords={this.state.originCoords}
-              destinationCoords={this.state.destinationCoords}
+              origin={this.props.origin}
+              destination={this.props.destination}
+              originCoords={this.props.originCoords}
+              destinationCoords={this.props.destinationCoords}
             />
           </div>
         </Card>
