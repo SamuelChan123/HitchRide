@@ -1,0 +1,12 @@
+{% extends 'layout.html' %}
+{% block heading %}All Projects{% endblock %}
+{% block content %}
+<ul>
+  {% for project in projects %}
+  <li><a href="{{url_for('project', name=project.name)}}">{{project.name}}</a></li>
+  {% endfor %}
+</ul>
+<hr/>
+<p>{{projects|length}} project{{projects|length|pluralize}}
+  found in the database.</p>
+{% endblock %}

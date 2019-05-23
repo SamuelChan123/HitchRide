@@ -1,0 +1,12 @@
+{% extends 'layout.html' %}
+{% block heading %}Project Information: {{project.name}}{% endblock %}
+{% block content %}
+
+<p>Name: {{project.name}}</p>
+<p>Number of Spots: {{project.num_spots}}</p>
+<p>Date Posted: {{project.date_posted}}</p>
+<p>Description: {{project.description}}</p>
+<p>Skills Needed: {{project.skills_description}}</p>
+<p>Manager: {{project.leadinfo.person.name}} ({{project.leadinfo.person.email}})</p>
+
+{% endblock %}
