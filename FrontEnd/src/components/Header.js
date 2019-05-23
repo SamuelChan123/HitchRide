@@ -10,6 +10,7 @@ import { fade } from '@material-ui/core/styles/colorManipulator';
 import { withStyles } from '@material-ui/core/styles';
 
 
+
 const styles = theme => ({
   root: {
     width: '100%',
@@ -79,12 +80,13 @@ class Header extends React.Component {
         <Toolbar>
           <IconButton className={classes.menuButton} color="inherit" aria-label="Open drawer">
           </IconButton>
-          <Typography className={classes.title} variant="h6" color="inherit" noWrap>
-            Material-UI
+          <Typography className={classes.title} variant="h4" color="inherit" noWrap>
+            <b>HitchRide</b>
           </Typography>
           <div className={classes.grow} />
           <div className={classes.search}>
             <div className={classes.searchIcon}>
+              <img src={require('./icons/search.svg')}/>
             </div>
             <InputBase
               placeholder="Search…"
