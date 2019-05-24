@@ -18,12 +18,12 @@ class Entry(db.Model):
 
     id = db.Column('id', db.Integer(), primary_key=True)
     personid = db.Column('personid', db.Integer(), unique=True)
-    originLatitude = db.Column('originLatitude',db.Float())
-    originLongitude = db.Column('originLongitude', db.Float())
-    destLatitude = db.Column('destLatitude', db.Float())
-    destLongitude = db.Column('destLongitude', db.Float())
-    startTime = db.Column('starttime', db.TIMESTAMP())
-    radiusMiles = db.Column('radiusmiles', db.Float())
+    originlatitude = db.Column('originlatitude',db.Float())
+    originlongitude = db.Column('originlongitude', db.Float())
+    destlatitude = db.Column('destlatitude', db.Float())
+    destlongitude = db.Column('destlongitude', db.Float())
+    starttime = db.Column('starttime', db.TIMESTAMP())
+    radiusmiles = db.Column('radiusmiles', db.Float())
     type = db.Column('type', db.String(32))
     comment = db.Column('comment', db.String(64))
 
@@ -34,10 +34,10 @@ class Groups(db.Model):
 
     id = db.Column('id', db.Integer(), unique = True, primary_key=True)
     group_members = db.Column('group_members', db.String(128))
-    originLatitude = db.Column('originLatitude', db.Float())
-    originLongitude = db.Column('originLongitude', db.Float())
-    destLatitude = db.Column('destLatitude', db.Float())
-    destLongitude = db.Column('destLongitude', db.Float())
-    startTime = db.Column('starttime', db.TIMESTAMP())
+    originlatitude = db.Column('originlatitude', db.Float())
+    originlongitude = db.Column('originlongitude', db.Float())
+    destlatitude = db.Column('destlatitude', db.Float())
+    destlongitude = db.Column('destlongitude', db.Float())
+    starttime = db.Column('starttime', db.TIMESTAMP())
 
 #-------------------------------------------------------------------------------
