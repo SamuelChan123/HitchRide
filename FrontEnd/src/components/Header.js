@@ -113,45 +113,6 @@ class Header extends React.Component {
             </Typography>
 
             <div className={classes.grow} />
-<<<<<<< HEAD
-              <div>
-                <LocationSearchInput
-                  onAddressChange={this.handleAddressChangeOrigin}/>
-              </div>
-              <div>
-                <LocationSearchInput
-                onAddressChange={this.handleAddressChangeDest}/>
-              </div>
-              <div className={classes.search}>
-                <InputBase
-                  id="Date"
-                  placeholder="Departure Date"
-                  classes={{
-                    root: classes.inputRoot,
-                    input: classes.inputInput,
-                  }}
-                  type="date"
-                  required={true}
-                  onChange={this.handleDateChange}
-                />
-              </div>
-              <div className={classes.search}>
-                <InputBase
-                  id="Time"
-                  placeholder="Departure Time"
-                  classes={{
-                    root: classes.inputRoot,
-                    input: classes.inputInput,
-                  }}
-                  type="time"
-                  required={true}
-                  onChange={this.handleTimeChange}
-                />
-              </div>
-              <button className={classes.searchButton} color="inherit" aria-label="Open drawer" onClick={this.props.onSearch}>
-                <img src={require('./icons/search.svg')} />
-              </button>
-=======
             <div>
               <LocationSearchInput
                 onAddressChange={this.handleAddressChangeOrigin}
@@ -196,7 +157,6 @@ class Header extends React.Component {
             >
               <img src={require("./icons/search.svg")} />
             </button>
->>>>>>> e8556cb04ed99ddee6de8d4e7e465526c0c9a0f1
           </Toolbar>
         </AppBar>
       </div>

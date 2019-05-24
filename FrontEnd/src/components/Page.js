@@ -51,7 +51,8 @@ class Page extends React.Component {
   }
 
   handleSearch() {
-    alert(this.state.time);
+    alert(this.state.origin);
+    console.log(this.state.origin);
   }
 
   handleAddressChangeOrigin(origin) {
