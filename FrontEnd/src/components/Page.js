@@ -47,7 +47,7 @@ class Page extends React.Component {
     axios.post(
       (process.env.BACKEND_URL || "http://18.215.243.105:5000") + "/entry",
       {
-        personid: {rand},
+        personid: { rand },
         originlatitude: this.state.originCoords[0],
         originlongitude: this.state.originCoords[1],
         destlatitude: this.state.destCoords[0],
@@ -103,30 +103,25 @@ class Page extends React.Component {
   }
 
   handleAddressChangeOrigin(origin) {
-    console.log("HELLO")
+    console.log("HELLO");
 
     this.setState({ origin });
     console.log(this.state.origin);
   }
 
   handleCoordsChangeOrigin(coords) {
-    console.log("HELLO")
+    console.log("HELLO");
 
     this.setState({ originCoords: [coords.lat, coords.lng] });
   }
 
   handleAddressChangeDest(dest) {
-    console.log("HELLO")
+    console.log("HELLO");
 
     this.setState({ dest });
   }
 
   handleCoordsChangeDest(coords) {
-    console.log("HELLO")
-    console.log(coords)
-    alert("HELLO")
-    console.log(coords.lat)
-    console.log(coords.lng)
     this.setState({ destCoords: [coords.lat, coords.lng] });
   }
 

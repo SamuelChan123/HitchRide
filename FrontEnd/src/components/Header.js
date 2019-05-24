@@ -83,22 +83,22 @@ class Header extends React.Component {
   }
 
   handleAddressChangeOrigin(origin) {
-    this.setState(origin);
+    this.setState({ origin: origin });
     this.props.onAddressChangeOrigin(origin);
   }
 
-  handleCoordsChangeOrigin(origin) {
-    this.setState(origin);
+  handleCoordsChangeOrigin(originCoords) {
+    this.setState({ originCoords: originCoords });
     this.props.onCoordsChangeOrigin(origin);
   }
 
   handleAddressChangeDest(dest) {
-    this.setState(dest);
+    this.setState({ dest: dest });
     this.props.onAddressChangeDest(dest);
   }
 
   handleCoordsChangeDest(destCoords) {
-    this.setState(destCoords);
+    this.setState({ destCoords: destCoords });
     this.props.onCoordsChangeDest(destCoords);
   }
 
@@ -114,7 +114,12 @@ class Header extends React.Component {
 
   handleMakeRide() {
     console.log(this.state.origin);
-    this.props.handleMakeRide(this.state.origin, this.state.dest, this.state.time, this.state.date);
+    this.props.handleMakeRide(
+      this.state.origin,
+      this.state.dest,
+      this.state.time,
+      this.state.date
+    );
   }
 
   render() {
