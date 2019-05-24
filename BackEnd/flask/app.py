@@ -61,8 +61,8 @@ def create_entry():
     data = request.json    
     #data = request.get_json()
     maxID = db.session.query(func.max(models.Entry.id)).scalar() #gets current maximum ID in Entry table
-    new_entry = models.Entry(id=maxID+1, personId=data['personId'], origin=data['origin'], destination=data['destination'], startTime=data['starttime'], radiusMiles=data['radiusmiles'], type=data['type'], comment=data['comment'])
-    records = db_session.query(models.Groups).filter(Groups.originlatitutde.in_data["originlatitude"]).all()
+    new_entry = models.Entry(id=maxID+1, personid=data['personid'], origin=data['origin'], destination=data['destination'], startTime=data['starttime'], radiusMiles=data['radiusmiles'], type=data['type'], comment=data['comment'])
+    records = db_session.query(models.Groups).filter(models.Groups.originlatitutde.in_data["originlatitude"]).all()
     return jsonify({'results':records})
     db.session.add(new_entry)
     db.session.commit()
@@ -78,11 +78,11 @@ def get_all_entries():
     for entry in entries:
         entry_data = {}
         entry_data['id'] = entry.id
-        entry_data['personId'] = entry.personId
+        entry_data['personid'] = entry.personid
         entry_data['origin'] = entry.origin
         entry_data['destination'] = entry.destination
-        entry_data['starttime'] = entry.startTime
-        entry_data['radiusmiles'] = entry.radiusMiles
+        entry_data['starttime'] = entry.starttime
+        entry_data['radiusmiles'] = entry.radiusmiles
         entry_data['type'] = entry.type
         entry_data['comment'] = entry.comment
         output.append(entry_data)
@@ -154,12 +154,12 @@ def get_one_entry(entry_id):
         entry_data = {}
 
         entry_data['id'] = entry.id
-        entry_data['personId'] = entry.personId
+        entry_data['personid'] = entry.personid
         entry_data['origin'] = entry.origin
         entry_data['destination'] = entry.destination
-        entry_data['startTime'] = entry.startTime
+        entry_data['starttime'] = entry.starttime
         entry_data['type'] = entry.type
-        entry_data['radiusMiles'] = entry.radiusMiles
+        entry_data['radiusmiles'] = entry.radiusmiles
         entry_data['comment'] = entry.comment
 
         return jsonify({'entry' : entry_data})
@@ -253,13 +253,13 @@ def put_entry():
         return jsonify({'message': 'No entry found!'})
 
     entry.id = data['id']
-    entry.personId = data['personId']
+    entry.personid = data['personid']
     entry.origin = data['origin']
     entry.destination = data['destination']
-    entry.startTime = data['startTime']
-    entry.endTime = data['endTime']
+    entry.starttime = data['starttime']
+    entry.endtime = data['endtime']
     entry.type = data['type']
-    entry.radiusMiles = data['radiusMiles']
+    entry.radiusmiles = data['radiusmiles']
     entry.comment = data['comment']
 
     db.session.commit()
