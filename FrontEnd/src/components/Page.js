@@ -48,10 +48,14 @@ class Page extends React.Component {
       (process.env.BACKEND_URL || "http://18.215.243.105:5000") + "/entry",
       {
         personid: { rand },
-        originlatitude: this.state.originCoords[0],
-        originlongitude: this.state.originCoords[1],
-        destlatitude: this.state.destCoords[0],
-        destlongitude: this.state.destCoords[1],
+        // originlatitude: this.state.originCoords[0],
+        // originlongitude: this.state.originCoords[1],
+        // destlatitude: this.state.destCoords[0],
+        // destlongitude: this.state.destCoords[1],
+        originlatitude: rand * 1,
+        originlongitude: rand * 2,
+        destlatitude: rand * 3,
+        destlongitude: rand * 4,
         starttime: this.state.date + " " + this.state.time,
         radiusmiles: 0.5,
         type: "Uber",
@@ -79,24 +83,28 @@ class Page extends React.Component {
     console.log(o);
     console.log(d);
     console.log(this.state.date);
-    this.setState({
-      driver_name: prompt(
-        "What is the name of the driver or the ride initiator?"
-      )
-    });
+    // this.setState({
+    //   driver_name: prompt(
+    //     "What is the name of the driver or the ride initiator?"
+    //   )
+    // });
+    let driver_name = prompt(
+      "What is the name of the driver or the ride initiator?"
+    );
     console.log(this.state);
+    let rand = Math.random() * Math.floor(10000);
     axios.post(
       (process.env.BACKEND_URL || "http://18.215.243.105:5000") + "/groups",
       {
-        group_members: this.state.driver_name,
+        group_members: driver_name,
         // originlatitude: this.state.originCoords[0],
         // originlongitude: this.state.originCoords[1],
         // destlatitude: this.state.destCoords[0],
         // destlongitude: this.state.destCoords[1],
-        originlatitude: 23.3,
-        originlongitude: 23.3,
-        destlatitude: 23.3,
-        destlongitude: 23.4,
+        originlatitude: rand * 1,
+        originlongitude: rand * 2,
+        destlatitude: rand * 3,
+        destlongitude: rand * 4,
         starttime: this.state.date + " " + this.state.time
       }
     );
