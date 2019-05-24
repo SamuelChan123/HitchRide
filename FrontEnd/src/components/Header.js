@@ -79,6 +79,7 @@ class Header extends React.Component {
     this.handleCoordsChangeDest = this.handleCoordsChangeDest.bind(this);
     this.handleDateChange = this.handleDateChange.bind(this);
     this.handleTimeChange = this.handleTimeChange.bind(this);
+    this.handleMakeRide = this.hand
   }
 
   handleAddressChangeOrigin(origin) {
@@ -168,6 +169,14 @@ class Header extends React.Component {
               onClick={this.props.onSearch}
             >
               <img src={require("./icons/search.svg")} />
+            </button>
+            <button
+              className={classes.makeRide}
+              color="inherit"
+              aria-label="Open drawer"
+              onClick={this.props.makeRide}
+            >
+              <img src={require("./icons/plus.svg")} />
             </button>
           </Toolbar>
         </AppBar>
