@@ -41,14 +41,15 @@ class Page extends React.Component {
   handleSearch() {
     console.log(this.state.originCoords);
     console.log(this.state.destCoords);
+    const rand = Math.floor(Math.random() * Math.floor(10000));
     axios.post(
       (process.env.BACKEND_URL || "http://18.215.243.105:5000") + "/entry",
       {
-        personId: 1,
+        personid: 2,
         originlatitude: this.state.originCoords[0],
         originlongitude: this.state.originCoords[1],
-        destinationlatitude: this.state.destCoords[0],
-        destinationlongitude: this.state.destCoords[1],
+        destlatitude: this.state.destCoords[0],
+        destlongitude: this.state.destCoords[1],
         starttime: this.state.date + " " + this.state.time,
         radiusmiles: 0.5,
         type: "Uber",
@@ -95,6 +96,7 @@ class Page extends React.Component {
 
   handleAddressChangeOrigin(origin) {
     this.setState({ origin });
+    console.log(this.state.origin);
   }
 
   handleCoordsChangeOrigin(coords) {
@@ -138,8 +140,8 @@ class Page extends React.Component {
           {this.state.data.map(item => (
             <Post
               name={item.group_members.split(",")[0]}
-              origin=""
-              destination=""
+              origin={this.state.origin}
+              destination={this.state.dest}
               time={item.starttime}
               originCoords={[item.originlatitude, item.originlongitude]}
               destinationCoords={[item.destlatitude, item.destlongitude]}
