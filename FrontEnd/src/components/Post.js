@@ -33,6 +33,7 @@ class Post extends React.Component {
   }
 
   handleClick() {
+    prompt("Before you accept this be 100% sure that you want to participate in this ride. Enter your name below and press enter.");
     
   }
 
