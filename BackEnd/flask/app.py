@@ -137,7 +137,7 @@ def put_person():
     return jsonify({'message' : 'The user has been modified!'})
 
 
-#Get one row in Person by ID
+#Get one row in Entry by ID
 @app.route('/entry/<entry_id>', methods=['GET'])
 def get_one_entry(entry_id):
         entry = db.session.query(models.Entry)\
@@ -160,7 +160,7 @@ def get_one_entry(entry_id):
 
         return jsonify({'entry' : entry_data})
 
-# Delete a Person
+# Delete a Entry
 @app.route('/entry/<entry_id>', methods=['DELETE'])
 def delete_entry(entry_id):
 
@@ -173,6 +173,49 @@ def delete_entry(entry_id):
     db.session.delete(entry)
     db.session.commit()
     return jsonify({'message' : 'The entry has been deleted!'})
+
+#Inserting a row into the Groups table
+@app.route('/groups', methods=['POST'])
+def create_group():
+    data = request.get_json()
+    maxID = db.session.query(func.max(models.Person.id)).scalar() #gets current maximum ID in Person table
+    new_group = models.Groups(id=maxID+1, group_members=data['group_members'])
+    db.session.add(new_group)
+    db.session.commit()
+    return jsonify({'message' : 'New group created!'})
+
+#Return all Persons (users)
+@app.route('/groups', methods=['GET'])
+def get_all_groups():
+    groups = models.Groups.query.all()
+    output = []
+    for group in groups:
+        group_data = {}
+        group_data['id'] = group.id
+        group_data['group_members'] = group.group_members
+
+        output.append(group_data)
+    return jsonify({'groups' : output})
+
+
+
+#Get one row in Groups by ID
+@app.route('/groups/<groups_id>', methods=['GET'])
+def get_one_group(group_id):
+        group = db.session.query(models.Groups)\
+            .filter(models.Groups.id == group_id).first()
+
+        if not group:
+            return jsonify({'message' : 'No group found!'})
+
+        group_data = {}
+
+        group_data['id'] = group.id
+        group_data['group_members'] = group.group_members
+
+
+        return jsonify({'entry' : entry_data})
+
 
 
 # Update an Entry
