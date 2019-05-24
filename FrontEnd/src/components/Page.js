@@ -15,35 +15,7 @@ const styles = {
   }
 };
 
-const data = [
-  {
-    name: "Josh Kennedy",
-    origin: "1717 Office",
-    destination: "Omni Hotel",
-    time: "May 25 at 1:00pm",
-    originCoords: [52.505, -0.09],
-    destinationCoords: [52.555, -0.09],
-    passengers: ["Joe Smith","Billy Bob"]
-  },
-  {
-    name: "Benny Beinish",
-    origin: "Omni Hotel",
-    destination: "Richmond Airport",
-    time: "May 24 at 3:00pm",
-    originCoords: [51.505, -0.09],
-    destinationCoords: [51.555, -0.09],
-    passengers: []
-  },
-  {
-    name: "Samarth Kishor",
-    origin: "1717 Office",
-    destination: "A tall cliff",
-    time: "May 25 at 5:00am",
-    originCoords: [51.505, -1.09],
-    destinationCoords: [51.555, -1.09],
-    passengers: []
-  }
-];
+let data = [];
 
 class Page extends React.Component {
   constructor() {
@@ -72,20 +44,32 @@ class Page extends React.Component {
     console.log(this.state.destCoords);
     axios.post((process.env.BACKEND_URL || 'http://localhost:5000') + "/entry", {
       personId: 1,
-      origin: this.state.originCoords[0],
-      destination: this.state.destCoords[1],
+      originlatitude: this.state.originCoords[0],
+      originlongitude: this.state.originCoords[1],
+      destinationlatitude: this.state.destCoords[0],
+      destinationlongitude: this.state.destCoords[1],
       starttime: this.state.date + " " + this.state.time,
-      endtime: this.state.date + " " + this.state.time,
-      radiusmiles: 0,
+      radiusmiles: 0.5,
       type: "Uber",
-      comment: "yeet"
+      comment: "Let's go on a rideeeee"
     });
   }
 
   handleMakeRide() {
     console.log(this.state.originCoords);
     console.log(this.state.date);
-    this.setState({driver_name: prompt("What is the name of the driver?")});
+    this.setState({driver_name: prompt("What is the name of the driver or the ride initiator?")});
+    axios.post((process.env.BACKEND_URL || 'http://localhost:5000') + "/groups", {
+      group_members: this.state.driver_name,
+      originlatitude: this.state.originCoords[0],
+      originlongitude: this.state.originCoords[1],
+      destlatitude: this.state.destCoords[0],
+      destlongitude: this.state.destCoords[1],
+      starttime: this.state.date + " " + this.state.time,
+      radiusmiles: 0.5,
+      type: "Uber",
+      comment: "I would love a ride to these locations!"
+    });
   }
 
   handleAddressChangeOrigin(origin) {
@@ -118,6 +102,12 @@ class Page extends React.Component {
   }
 
   render() {
+
+
+    axios.get((process.env.REACT_APP_BACKEND_URL || 'http://localhost:5000') + '/groups').then(res => {
+      this.setState(res);
+    });
+
     return (
       <div>
         <Header

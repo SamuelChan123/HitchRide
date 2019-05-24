@@ -1,8 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
+import axios from "axios";
 
 import { withStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
+import Dialog from "@material-ui/core/Dialog";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardContent from "@material-ui/core/CardContent";
 import Avatar from "@material-ui/core/Avatar";
@@ -40,7 +42,20 @@ class Post extends React.Component {
 
     this.setState({ passengers });
     this.props.onAddPass(passengers);
-    console.log(this.props.name);
+
+    axios.post(
+      (process.env.BACKEND_URL || "http://localhost:5000") + "/groups/",
+      {
+        personId: 1,
+        origin: this.state.originCoords[0],
+        destination: this.state.destCoords[1],
+        starttime: this.state.date + " " + this.state.time,
+        endtime: this.state.date + " " + this.state.time,
+        radiusmiles: 0,
+        type: "Uber",
+        comment: "yeet"
+      }
+    );
   }
 
   render() {
