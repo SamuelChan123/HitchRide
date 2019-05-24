@@ -33,12 +33,12 @@ def home():
 #Inserting a row into the Person table
 @app.route('/person', methods=['POST'])
 def create_person():
-    data = request.get_json()
+    data = request.json
     maxID = db.session.query(func.max(models.Person.id)).scalar() #gets current maximum ID in Person table
     new_person = models.Person(id=maxID+1, name=data['name'], email=data['email'], password=data['password'], phone=data['phone'], rating=data['rating'])
     db.session.add(new_person)
     db.session.commit()
-    return jsonify({'message' : 'New user created!'})
+    return jsonify({'json':data})    
 
 #Return all Persons (users)
 @app.route('/person', methods=['GET'])
