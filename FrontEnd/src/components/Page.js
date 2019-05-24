@@ -42,7 +42,7 @@ const data = [
 class Page extends React.Component {
   constructor() {
     super();
-    this.state = {origin: "", dest: "", date: null, time: null};
+    this.state = { origin: "", dest: "", date: null, time: null };
     this.handleSearch = this.handleSearch.bind(this);
     this.handleAddressChangeOrigin = this.handleAddressChangeOrigin.bind(this);
     this.handleAddressChangeDest = this.handleAddressChangeDest.bind(this);
@@ -63,24 +63,22 @@ class Page extends React.Component {
   }
 
   handleDateChange(event) {
-    this.setState({date: event});
+    this.setState({ date: event });
   }
 
   handleTimeChange(time) {
-    this.setState({time: time});
+    this.setState({ time: time });
   }
-
 
   render() {
     return (
       <div>
-        <Header 
-        onSearch={this.handleSearch}
-        onAddressChangeOrigin={this.handleAddressChangeOrigin}
-        onAddressChangeDest={this.handleAddressChangeDest}
-        onDateChange={this.handleDateChange}
-        onTimeChange={this.handleTimeChange}
-
+        <Header
+          onSearch={this.handleSearch}
+          onAddressChangeOrigin={this.handleAddressChangeOrigin}
+          onAddressChangeDest={this.handleAddressChangeDest}
+          onDateChange={this.handleDateChange}
+          onTimeChange={this.handleTimeChange}
         />
         <div style={styles.postContainer}>
           {data.map(item => (
