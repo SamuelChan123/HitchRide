@@ -43,7 +43,10 @@ class LocationSearchInput extends React.Component {
                 className: "location-search-input"
               })}
             />
-            <Paper className="autocomplete-dropdown-container">
+            <Paper
+              style={{ zIndex: 100, position: "absolute" }}
+              className="autocomplete-dropdown-container"
+            >
               {loading && <div>Loading...</div>}
               {suggestions.map(suggestion => {
                 const className = suggestion.active
@@ -53,11 +56,13 @@ class LocationSearchInput extends React.Component {
                 const style = suggestion.active
                   ? {
                       backgroundColor: "#fafafa",
-                      cursor: "pointer"
+                      cursor: "pointer",
+                      zIndex: 1
                     }
                   : {
                       backgroundColor: "#ffffff",
-                      cursor: "pointer"
+                      cursor: "pointer",
+                      zIndex: 1
                     };
                 return (
                   <MenuItem
