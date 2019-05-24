@@ -204,7 +204,7 @@ def delete_entry(entry_id):
 @app.route('/groups', methods=['POST'])
 def create_group():
     data = request.get_json()
-    maxID = db.session.query(func.max(models.Person.id)).scalar() #gets current maximum ID in Person table
+    maxID = db.session.query(func.max(models.Groups.id)).scalar() #gets current maximum ID in Person table
     new_group = models.Groups(id=maxID+1, group_members=data['group_members'], originlatitude=data['originlatitude'], originlongitude=data['originlongitude'],destlatitude=data['destlatitude'],destlongitude=data['destlongitude'],starttime=data['starttime'])
     db.session.add(new_group)
     db.session.commit()
