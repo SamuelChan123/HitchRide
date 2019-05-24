@@ -42,16 +42,18 @@ const data = [
 class Page extends React.Component {
   constructor() {
     super();
-    this.state = { origin: "", dest: "", date: null, time: null };
+    this.state = { origin: "", dest: "", date: null, time: null, coords: [] };
     this.handleSearch = this.handleSearch.bind(this);
     this.handleAddressChangeOrigin = this.handleAddressChangeOrigin.bind(this);
+    this.handleCoordsChangeOrigin = this.handleCoordsChangeOrigin.bind(this);
     this.handleAddressChangeDest = this.handleAddressChangeDest.bind(this);
+    this.handleCoordsChangeDest = this.handleCoordsChangeDest.bind(this);
     this.handleDateChange = this.handleDateChange.bind(this);
     this.handleTimeChange = this.handleTimeChange.bind(this);
   }
 
   handleSearch() {
-    alert(this.state.origin);
+    alert(this.state.coords);
     console.log(this.state.origin);
   }
 
@@ -59,8 +61,16 @@ class Page extends React.Component {
     this.setState({ origin });
   }
 
+  handleCoordsChangeOrigin(coords) {
+    this.setState({ coords: [coords.lat, coords.lng] });
+  }
+
   handleAddressChangeDest(dest) {
     this.setState({ dest });
+  }
+
+  handleCoordsChangeDest(coords) {
+    this.setState({ coords: [coords.lat, coords.lng] });
   }
 
   handleDateChange(event) {
@@ -78,6 +88,8 @@ class Page extends React.Component {
           onSearch={this.handleSearch}
           onAddressChangeOrigin={this.handleAddressChangeOrigin}
           onAddressChangeDest={this.handleAddressChangeDest}
+          onCoordsChangeOrigin={this.handleCoordsChangeOrigin}
+          onCoordsChangeDest={this.handleCoordsChangeDest}
           onDateChange={this.handleDateChange}
           onTimeChange={this.handleTimeChange}
         />
