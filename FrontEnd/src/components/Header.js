@@ -74,7 +74,9 @@ class Header extends React.Component {
     super(props);
     this.state = { origin: "test" };
     this.handleAddressChangeOrigin = this.handleAddressChangeOrigin.bind(this);
+    this.handleCoordsChangeOrigin = this.handleCoordsChangeOrigin.bind(this);
     this.handleAddressChangeDest = this.handleAddressChangeDest.bind(this);
+    this.handleCoordsChangeDest = this.handleCoordsChangeDest.bind(this);
     this.handleDateChange = this.handleDateChange.bind(this);
     this.handleTimeChange = this.handleTimeChange.bind(this);
   }
@@ -83,8 +85,16 @@ class Header extends React.Component {
     this.props.onAddressChangeOrigin(origin);
   }
 
+  handleCoordsChangeOrigin(origin) {
+    this.props.onCoordsChangeOrigin(origin);
+  }
+
   handleAddressChangeDest(dest) {
     this.props.onAddressChangeDest(dest);
+  }
+
+  handleCoordsChangeDest(origin) {
+    this.props.onCoordsChangeDest(origin);
   }
 
   handleDateChange(event) {
@@ -116,11 +126,13 @@ class Header extends React.Component {
             <div>
               <LocationSearchInput
                 onAddressChange={this.handleAddressChangeOrigin}
+                onCoordsChange={this.handleCoordsChangeOrigin}
               />
             </div>
             <div>
               <LocationSearchInput
                 onAddressChange={this.handleAddressChangeDest}
+                onCoordsChange={this.handleCoordsChangeDest}
               />
             </div>
             <div className={classes.search}>

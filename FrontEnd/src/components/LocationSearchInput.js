@@ -25,6 +25,7 @@ class LocationSearchInput extends React.Component {
         console.log("Success", latLng);
         this.setState({ address: address });
         this.props.onAddressChange(address);
+        this.props.onCoordsChange(latLng);
       })
       .catch(error => console.error("Error", error));
   };
