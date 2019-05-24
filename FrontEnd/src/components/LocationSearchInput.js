@@ -1,26 +1,31 @@
-import React from 'react';
+import React from "react";
 import PlacesAutocomplete, {
   geocodeByAddress,
-  getLatLng,
-} from 'react-places-autocomplete';
+  getLatLng
+} from "react-places-autocomplete";
+
+import TextField from "@material-ui/core/TextField";
+import Paper from "@material-ui/core/Paper";
+import MenuItem from "@material-ui/core/MenuItem";
 
 class LocationSearchInput extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { address: '' };
-    this.handleChange = this.handleChange.bind(this);
+    this.state = { address: "" };
   }
 
   handleChange = address => {
     this.setState({ address });
-    this.props.onAddressChange(address);
   };
 
   handleSelect = address => {
     geocodeByAddress(address)
       .then(results => getLatLng(results[0]))
-      .then(latLng => console.log('Success', latLng))
-      .catch(error => console.error('Error', error));
+      .then(latLng => {
+        console.log("Success", latLng);
+        this.setState({ address: address });
+      })
+      .catch(error => console.error("Error", error));
   };
 
   render() {
@@ -32,34 +37,45 @@ class LocationSearchInput extends React.Component {
       >
         {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
           <div>
-            <input
+            <TextField
               {...getInputProps({
-                placeholder: 'Search Places ...',
-                className: 'location-search-input',
+                placeholder: "Search Places ...",
+                className: "location-search-input"
               })}
             />
-            <div className="autocomplete-dropdown-container">
+            <Paper
+              style={{ zIndex: 100, position: "absolute" }}
+              className="autocomplete-dropdown-container"
+            >
               {loading && <div>Loading...</div>}
               {suggestions.map(suggestion => {
                 const className = suggestion.active
-                  ? 'suggestion-item--active'
-                  : 'suggestion-item';
+                  ? "suggestion-item--active"
+                  : "suggestion-item";
                 // inline style for demonstration purpose
                 const style = suggestion.active
-                  ? { backgroundColor: '#000000', cursor: 'pointer' }
-                  : { backgroundColor: '#000000', cursor: 'pointer' };
+                  ? {
+                      backgroundColor: "#fafafa",
+                      cursor: "pointer",
+                      zIndex: 1
+                    }
+                  : {
+                      backgroundColor: "#ffffff",
+                      cursor: "pointer",
+                      zIndex: 1
+                    };
                 return (
-                  <div
+                  <MenuItem
                     {...getSuggestionItemProps(suggestion, {
                       className,
-                      style,
+                      style
                     })}
                   >
                     <span>{suggestion.description}</span>
-                  </div>
+                  </MenuItem>
                 );
               })}
-            </div>
+            </Paper>
           </div>
         )}
       </PlacesAutocomplete>
