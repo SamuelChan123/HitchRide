@@ -184,7 +184,7 @@ def create_group():
     db.session.commit()
     return jsonify({'message' : 'New group created!'})
 
-#Return all Persons (users)
+#Return all groups
 @app.route('/groups', methods=['GET'])
 def get_all_groups():
     groups = models.Groups.query.all()
@@ -196,6 +196,25 @@ def get_all_groups():
 
         output.append(group_data)
     return jsonify({'groups' : output})
+
+# Update a Group
+@app.route('/groups/groups_id', methods=['PUT'])
+def put_group():
+    data = request.get_json()
+
+    group = db.session.query(models.Groups)\
+        .filter(models.Groups.id == groups_id).first()
+
+    if not group:
+        return jsonify({'message': 'No group found!'})
+
+    group.id = data['id']
+    group.group_members += ( "," + data['id'] )
+
+
+    db.session.commit()
+    return jsonify({'message' : 'The group has been modified!'})
+
 
 
 
@@ -242,6 +261,20 @@ def put_entry():
     db.session.commit()
     return jsonify({'message' : 'The entry has been deleted!'})
 
+
+# Delete a group
+@app.route('/groups/<groups_id>', methods=['DELETE'])
+def delete_group(groups_id):
+
+    group = db.session.query(models.Groups)\
+        .filter(models.Groups.id == groups_id).first()
+
+    if not group:
+        return jsonify({'message': 'No entry found!'})
+
+    db.session.delete(group)
+    db.session.commit()
+    return jsonify({'message' : 'The group has been deleted!'})
 
 @app.template_filter('pluralize')
 def pluralize(number, singular='', plural='s'):
