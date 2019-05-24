@@ -38,7 +38,7 @@ def create_person():
     new_person = models.Person(id=maxID+1, name=data['name'], email=data['email'], phone=data['phone'], rating=data['rating'])
     db.session.add(new_person)
     db.session.commit()
-    return jsonify({'json':data})    
+    return jsonify({'json':data})
 
 #Return all Persons
 @app.route('/person', methods=['GET'])
@@ -58,12 +58,14 @@ def get_all_persons():
 #Inserting a row into the Entry table
 @app.route('/entry', methods=['POST'])
 def create_entry():
-    data = request.json    
+    data = request.get_json()
     #data = request.get_json()
     maxID = db.session.query(func.max(models.Entry.id)).scalar() #gets current maximum ID in Entry table
     new_entry = models.Entry(id=maxID+1, personid=data['personid'], originlatitude=data['originlatitude'], originlongitude = data['originlongitude'],destlatitude=data['destlatitude'], destlongitude=data['destlongitude'], starttime=data['starttime'], radiusmiles=data['radiusmiles'], type=data['type'], comment=data['comment'])
     records = db.session.query(models.Groups).filter_by(destlatitude = data["destlatitude"]).all()
-    #records = Groups.query.filter_by(originlatitude=data['originlatitude']).all()
+    db.session.add(new_entry)
+    db.session.commit()    
+#records = Groups.query.filter_by(originlatitude=data['originlatitude']).all()
     print("fslkjfslkjfslkjs")
     output = []
     for item in records:
@@ -83,7 +85,7 @@ def create_entry():
     #print(jsonify({'results':records}))
     db.session.add(new_entry)
     db.session.commit()
-    return jsonify({'json':data})    
+    return jsonify({'json':data})
 #return jsonify({'message' : 'New entry created!', 'maxid':maxID, 'personid':data['personId'], 'origin':data['origin']})
 
 
@@ -176,9 +178,9 @@ def get_one_entry(entry_id):
         entry_data['id'] = entry.id
         entry_data['personid'] = entry.personid
         entry_data['originlatitude'] = entry.originlatitude
-	entry_data['originlongitude'] = entry.originlongitude
+        entry_data['originlongitude'] = entry.originlongitude
         entry_data['destlatitude'] = entry.destlatitude
-	entry_data['destlongitude'] = entry.destlongtude
+        entry_data['destlongitude'] = entry.destlongtude
         entry_data['starttime'] = entry.starttime
         entry_data['type'] = entry.type
         entry_data['radiusmiles'] = entry.radiusmiles
@@ -219,11 +221,11 @@ def get_all_groups():
         group_data = {}
         group_data['id'] = group.id
         group_data['group_members'] = group.group_members
-	group_data['originlatitude'] = group.originlatitude
-	group_data['originlongitude'] = group.originlongitude
-	group_data['destlatitude'] = group.destlatitude
-	group_data['destlongitude'] = group.destlongitude
-	group_data['starttime'] = group.starttime
+        group_data['originlatitude'] = group.originlatitude
+        group_data['originlongitude'] = group.originlongitude
+        group_data['destlatitude'] = group.destlatitude
+        group_data['destlongitude'] = group.destlongitude
+        group_data['starttime'] = group.starttime
         output.append(group_data)
     return jsonify({'groups' : output})
 
