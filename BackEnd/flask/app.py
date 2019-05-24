@@ -23,7 +23,8 @@ CORS(app)
 def home():
     persons = db.session.query(models.Person).all()
     entries = db.session.query(models.Entry).all()
-    return render_template('all-persons.html', persons = persons, entries = entries)
+    groups = db.session.query(models.Groups).all()
+    return render_template('all-persons.html', persons = persons, entries = entries, groups = groups)
 
 #RESTFUL API methods
 
@@ -32,7 +33,7 @@ def home():
 def create_person():
     data = request.get_json()
     maxID = db.session.query(func.max(models.Person.id)).scalar() #gets current maximum ID in Person table
-    new_person = models.Person(id=maxID+1, name=data['name'], email=data['email'], password=data['person'], phone=data['phone'], rating=data['rating'])
+    new_person = models.Person(id=maxID+1, name=data['name'], email=data['email'], password=data['password'], phone=data['phone'], rating=data['rating'])
     db.session.add(new_person)
     db.session.commit()
     return jsonify({'message' : 'New user created!'})
@@ -51,6 +52,37 @@ def get_all_persons():
         person_data['rating'] = person.rating
         output.append(person_data)
     return jsonify({'persons' : output})
+
+#Inserting a row into the Entry table
+@app.route('/entry', methods=['POST'])
+def create_entry():
+    data = request.get_json()
+    maxID = db.session.query(func.max(models.Entry.id)).scalar() #gets current maximum ID in Entry table
+    new_entry = models.Entry(id=maxID+1, personId=data['personId'], origin=data['origin'], destination=data['destination'], startTime=data['starttime'], endTime=data['endtime'], radiusMiles=data['radiusmiles'], type=data['type'], comment=data['comment'])
+    db.session.add(new_entry)
+    db.session.commit()
+    return jsonify({'message' : 'New entry created!'})
+
+#Return all Entries
+@app.route('/entry', methods=['GET'])
+def get_all_entries():
+    entries = models.Entry.query.all()
+    output = []
+    for entry in entries:
+        entry_data = {}
+        entry_data['id'] = entry.id
+        entry_data['personId'] = entry.personId
+        entry_data['origin'] = entry.origin
+        entry_data['destination'] = entry.destination
+        entry_data['starttime'] = entry.startTime
+        entry_data['endtime'] = entry.endTime
+        entry_data['radiusmiles'] = entry.radiusMiles
+        entry_data['type'] = entry.type
+        entry_data['comment'] = entry.comment
+        output.append(entry_data)
+    return jsonify({'entries' : output})
+
+
 
 #Get one row in Person by ID
 @app.route('/person/<person_id>', methods=['GET'])
@@ -88,171 +120,43 @@ def delete_person(person_id):
     return jsonify({'message' : 'The user has been deleted!'})
 
 
-#Project proposal
-#Adds row to ProjectInfo, rows to ProjectSubject (for each subject), row to LeadInfo based on the manager and user email provided
-@app.route('/project', methods=['POST'])
-def create_project():
-    data = request.get_json()
-    #gets manager id based on email and password
-    #Gets the id of the manager with the same email and password as the email and password sent in via JSON
-    validManager = db.session.query(models.Person)\
-        .filter(models.Person.email == data['manager_email'], models.Person.password == data['manager_password']).first()
-    if not validManager:
-        return jsonify({'message' : 'Incorrect email or password'})
-    #Autoincrement project ID pid
-    maxID = db.session.query(func.max(models.ProjectInfo.pid)).scalar()
 
-    new_proj = models.ProjectInfo(pid=maxID + 1, name=data['projectname'], num_spots=data['num_spots'], date_posted=data['date_posted'], description=data['description'],
-    skills_description=data['skills_description'], manager_id=validManager.id)
-    db.session.add(new_proj)
-    #If there is no manager in LeadInfo with this id, add it (website is optional)
-    newLead = db.session.query(models.LeadInfo)\
-        .filter(models.LeadInfo.id==validManager.id).first()
-    if not newLead:
-        if not 'manager_website' in data:
-            db.session.add(models.LeadInfo(id=validManager.id))
-        else:
-            db.session.add(models.LeadInfo(id=validManager.id, website=data['manager_website'])) #add to LeadInfo
+#Get one row in Person by ID
+@app.route('/entry/<entry_id>', methods=['GET'])
+def get_one_entry(entry_id):
+        entry = db.session.query(models.Entry)\
+            .filter(models.Entry.id == entry_id).first()
 
-    if 'subject1' in data:
-        db.session.add(models.ProjectSubject(pid=maxID+1, subject=data['subject1']))
-    if 'subject2' in data:
-        db.session.add(models.ProjectSubject(pid=maxID+1, subject=data['subject2']))
-    if 'subject3' in data:
-        db.session.add(models.ProjectSubject(pid=maxID+1, subject=data['subject3']))
+        if not entry:
+            return jsonify({'message' : 'No entry found!'})
 
+        entry_data = {}
+
+        entry_data['id'] = entry.id
+        entry_data['personId'] = entry.personId
+        entry_data['origin'] = entry.origin
+        entry_data['destination'] = entry.destination
+        entry_data['startTime'] = entry.startTime
+        entry_data['endTime'] = entry.endTime
+        entry_data['type'] = entry.type
+        entry_data['radiusMiles'] = entry.radiusMiles
+        entry_data['comment'] = entry.comment
+
+        return jsonify({'entry' : entry_data})
+
+# Delete a Person
+@app.route('/entry/<entry_id>', methods=['DELETE'])
+def delete_entry(entry_id):
+
+    entry = db.session.query(models.Entry)\
+        .filter(models.Entry.id == entry_id).first()
+
+    if not entry:
+        return jsonify({'message': 'No entry found!'})
+
+    db.session.delete(entry)
     db.session.commit()
-    return jsonify({'message' : 'New project posted!'})
-
-#Return all projects and their Lead's info (from Person and LeadInfo tables)
-@app.route('/project', methods=['GET'])
-def get_all_projects():
-    projects = models.ProjectInfo.query.all()
-    output = []
-    for project in projects:
-        subjects = db.session.query(models.ProjectSubject)\
-            .filter(models.ProjectSubject.pid == project.pid).all()
-        project_data = {}
-        project_data['pid'] = str(project.pid)
-        project_data['name'] = str(project.name)
-        project_data['num_spots'] = str(project.num_spots)
-        project_data['date_posted'] = str(project.date_posted)
-        project_data['description'] = str(project.description)
-        project_data['skills_description'] = str(project.skills_description)
-        if len(subjects)==1:
-            project_data['subject1'] = str(subjects[0].subject)
-            project_data['subject2'] = ""
-            project_data['subject3'] = ""
-        if len(subjects)==2:
-            project_data['subject1'] = str(subjects[0].subject)
-            project_data['subject2'] = str(subjects[1].subject)
-            project_data['subject3'] = ""
-        if len(subjects)>=3:
-            project_data['subject1'] = str(subjects[0].subject)
-            project_data['subject2'] = str(subjects[1].subject)
-            project_data['subject3'] = str(subjects[2].subject)
-        if len(subjects)==0:
-            project_data['subject1'] = ""
-            project_data['subject2'] = ""
-            project_data['subject3'] = ""
-        project_lead = db.session.query(models.Person)\
-            .filter(models.Person.id == project.manager_id).first()
-        project_data['manager_name'] = project_lead.name
-        project_data['manager_email'] = project_lead.email
-        project_data['manager_phone'] = project_lead.phone
-        output.append(project_data)
-    return jsonify({'projects' : output})
-
-#Return a single project based on id
-@app.route('/project/<project_id>', methods=['GET'])
-def get_one_project(project_id):
-        project = db.session.query(models.ProjectInfo)\
-            .filter(models.ProjectInfo.pid == project_id).first()
-        subjects = db.session.query(models.ProjectSubject)\
-            .filter(models.ProjectSubject.pid == project_id).all()
-        if not project:
-            return jsonify({'message' : 'No project found!'})
-
-        project_data = {}
-        project_data['pid'] = project.pid
-        project_data['name'] = project.name
-        project_data['num_spots'] = project.num_spots
-        project_data['description'] = project.description
-        project_data['date_posted'] = project.date_posted
-        project_data['skills_description'] = project.skills_description
-        if len(subjects)==1:
-            project_data['subject1'] = str(subjects[0].subject)
-            project_data['subject2'] = ""
-            project_data['subject3'] = ""
-        if len(subjects)==2:
-            project_data['subject1'] = str(subjects[0].subject)
-            project_data['subject2'] = str(subjects[1].subject)
-            project_data['subject3'] = ""
-        if len(subjects)>=3:
-            project_data['subject1'] = str(subjects[0].subject)
-            project_data['subject2'] = str(subjects[1].subject)
-            project_data['subject3'] = str(subjects[2].subject)
-        if len(subjects)==0:
-            project_data['subject1'] = ""
-            project_data['subject2'] = ""
-            project_data['subject3'] = ""
-
-        project_lead = db.session.query(models.Person)\
-            .filter(models.Person.id == project.manager_id).first()
-        project_data['manager_name'] = project_lead.name
-        project_data['manager_email'] = project_lead.email
-        project_data['manager_phone'] = project_lead.phone
-        return jsonify({'project' : project_data})
-
-#Delete a project
-@app.route('/project/<project_id>', methods=['DELETE'])
-def delete_project(project_id):
-    project = db.session.query(models.ProjectInfo)\
-        .filter(models.ProjectInfo.pid == project_id).first()
-
-    if not project:
-        return jsonify({'message': 'No project found!'})
-
-    db.session.delete(project)
-    db.session.commit()
-    return jsonify({'message' : 'The project has been deleted!'})
-
-
-#get all rows in Scholars table. This is a list of Duke faculty/researchers and their contact information. (Not to be confused with PIs added to Person/LeadInfo)
-@app.route('/scholars/', methods=['GET'])
-def get_all_scholars():
-    scholars = models.Scholars.query.all()
-    output = []
-    for scholar in scholars:
-        scholars_data = {}
-        scholars_data['name'] = scholar.name
-        scholars_data['title'] = scholar.title
-        scholars_data['department'] = scholar.department
-        scholars_data['phone'] = scholar.phone
-        scholars_data['email'] = scholar.email
-        scholars_data['website'] = scholar.website
-        output.append(scholars_data)
-    return jsonify({'scholars' : output})
-
-@app.route('/scholars/<scholar_name>', methods=['DELETE'])
-def delete_scholar(scholar_name):
-    scholar = db.session.query(models.Scholars)\
-        .filter(models.Scholars.name == scholar_name).first()
-
-    if not scholar:
-        return jsonify({'message': 'No faculty member!'})
-
-    db.session.delete(scholar)
-    db.session.commit()
-    return jsonify({'message' : 'Faculty member has been deleted!'})
-
-@app.route('/scholars', methods=['POST'])
-def create_scholar():
-    data = request.get_json()
-    new_scholar = models.Scholar(name=data['name'], title=data['title'], department=data['department'], phone=['phone'], email=['email'], website=data['website'])
-    db.session.add(new_scholar)
-    db.session.commit()
-    return jsonify({'message' : 'New project posted!'})
+    return jsonify({'message' : 'The entry has been deleted!'})
 
 
 @app.template_filter('pluralize')

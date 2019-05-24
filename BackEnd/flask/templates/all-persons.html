@@ -21,16 +21,16 @@
               {% block heading %}All Users{% endblock %}
               {% block content %}
               <ul>
-                {% for person in persons %}
-                <li><a href="{{url_for('person', name=person.name)}}">{{person.name}}</a></li>
-                {% endfor %}
+              {% for person in persons %}
+                <li><a href="{{url_for('home', name = person.name)}}">{{person.name}}</a></li>
+              {% endfor %}
               </ul>
               <hr/>
               <p>{{persons|length}} person{{persons|length|pluralize}}
                 found in the database.</p>
                 <ul>
                   {% for entry in entries %}
-                  <li><a href="{{url_for('entry', id=entry.id)}}">{{entry.personId}}</a></li>
+                  <li><a href="{{url_for('home', id=entry.id)}}">{{entry.personId}}</a></li>
                   {% endfor %}
                 </ul>
                 <hr/>
