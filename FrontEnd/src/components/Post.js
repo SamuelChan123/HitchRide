@@ -44,11 +44,6 @@ class Post extends React.Component {
     this.setState({ passengers });
   }
 
-  getPassengers() {
-    console.log(this.state.passengers);
-    return this.state.passengers.join(", ");
-  }
-
   render() {
     const { classes } = this.props;
     return (
