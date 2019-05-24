@@ -7,7 +7,7 @@ import CardHeader from "@material-ui/core/CardHeader";
 import CardContent from "@material-ui/core/CardContent";
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
-import Button from '@material-ui/core/Button';
+import Button from "@material-ui/core/Button";
 
 import PostMap from "./PostMap";
 
@@ -27,14 +27,26 @@ const styles = theme => ({
 });
 
 class Post extends React.Component {
-  constructor() {
-    super();
-    this.state = {};
+  constructor(props) {
+    super(props);
+    this.state = { passengers: [] };
+    this.handleClick = this.handleClick.bind(this);
   }
 
   handleClick() {
-    prompt("Before you accept this be 100% sure that you want to participate in this ride. Enter your name below and press enter.");
-    
+    let passengers = [...this.state.passengers];
+    passengers.push(
+      prompt(
+        "Before you accept this be 100% sure that you want to participate in this ride. Enter your name below and press enter."
+      )
+    );
+
+    this.setState({ passengers });
+  }
+
+  getPassengers() {
+    console.log(this.state.passengers);
+    return this.state.passengers.join(", ");
   }
 
   render() {
@@ -63,14 +75,18 @@ class Post extends React.Component {
                 Destination: {this.props.destination}
               </Typography>
               <Typography paragraph>
-                Passengers: {this.props.passengers.join(", ")}
+                Passengers: {this.state.passengers.join(", ")}
               </Typography>
             </CardContent>
           </div>
           <div>
-          <Button variant="contained" color="primary" onClick={this.handleClick}>
-            Join
-          </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={this.handleClick}
+            >
+              Join
+            </Button>
           </div>
           <div id="map-container">
             <PostMap
