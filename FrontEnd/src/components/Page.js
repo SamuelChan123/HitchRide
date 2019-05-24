@@ -1,7 +1,10 @@
 import React from "react";
+import axios from "axios";
 
 import Post from "./Post";
 import Header from "./Header";
+
+require("dotenv").config();
 
 const styles = {
   postContainer: {
@@ -62,6 +65,15 @@ class Page extends React.Component {
   handleSearch() {
     console.log(this.state.originCoords);
     console.log(this.state.destCoords);
+    axios.post(process.env.BACKEND_URL + "/entry", {
+      personId: 1,
+      origin: this.state.originCoords[0],
+      destination: this.state.destCoords[1],
+      starttime: this.state.time,
+      endtime: this.state.time,
+      type: "Uber",
+      commeht: "yeet"
+    });
   }
 
   handleAddressChangeOrigin(origin) {
