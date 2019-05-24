@@ -83,7 +83,7 @@ class Header extends React.Component {
     this.handleTimeChange = this.handleTimeChange.bind(this);
 
   }
-  
+
   handleAddressChangeOrigin(origin) {
     this.props.onAddressChangeOrigin(origin);
   }
@@ -121,7 +121,7 @@ class Header extends React.Component {
                   onAddressChange={this.handleAddressChangeOrigin}/>
               </div>
               <div>
-                <LocationSearchInput 
+                <LocationSearchInput
                 onAddressChange={this.handleAddressChangeDest}/>
               </div>
               <div className={classes.search}>
