@@ -60,7 +60,7 @@ class Page extends React.Component {
     this.handleCoordsChangeDest = this.handleCoordsChangeDest.bind(this);
     this.handleDateChange = this.handleDateChange.bind(this);
     this.handleTimeChange = this.handleTimeChange.bind(this);
-    this.handleMakeRide = this.handleMakeRide.bingd(this);
+    this.handleMakeRide = this.handleMakeRide.bind(this);
   }
 
   handleSearch() {
@@ -117,7 +117,7 @@ class Page extends React.Component {
           onCoordsChangeDest={this.handleCoordsChangeDest}
           onDateChange={this.handleDateChange}
           onTimeChange={this.handleTimeChange}
-          makeRide-{this.handleMakeRide}
+          makeRide={this.handleMakeRide}
         />
         <div style={styles.postContainer}>
           {data.map(item => (
