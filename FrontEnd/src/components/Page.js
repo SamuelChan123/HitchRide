@@ -61,7 +61,11 @@ class Page extends React.Component {
         type: "Uber",
         comment: "Let's go on a rideeeee"
       }
-    );
+    ).then(res => {
+      console.log("GOT RESPONSE");
+      console.log(res);
+    });
+
   }
 
   componentDidMount() {
