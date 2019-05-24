@@ -81,6 +81,7 @@ class Page extends React.Component {
   handleMakeRide() {
     console.log(this.state.originCoords);
     console.log(this.state.date);
+    this.setState({driver_name: prompt("test prompt")});
   }
 
   handleAddressChangeOrigin(origin) {
