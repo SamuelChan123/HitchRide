@@ -42,17 +42,66 @@ const data = [
 class Page extends React.Component {
   constructor() {
     super();
-    this.state = {};
+    this.state = {
+      origin: "",
+      dest: "",
+      date: null,
+      time: null,
+      originCoords: [],
+      destCoords: []
+    };
+    this.handleSearch = this.handleSearch.bind(this);
+    this.handleAddressChangeOrigin = this.handleAddressChangeOrigin.bind(this);
+    this.handleCoordsChangeOrigin = this.handleCoordsChangeOrigin.bind(this);
+    this.handleAddressChangeDest = this.handleAddressChangeDest.bind(this);
+    this.handleCoordsChangeDest = this.handleCoordsChangeDest.bind(this);
+    this.handleDateChange = this.handleDateChange.bind(this);
+    this.handleTimeChange = this.handleTimeChange.bind(this);
   }
 
+  handleSearch() {
+    console.log(this.state.originCoords);
+    console.log(this.state.destCoords);
+  }
+
+  handleAddressChangeOrigin(origin) {
+    this.setState({ origin });
+  }
+
+  handleCoordsChangeOrigin(coords) {
+    this.setState({ originCoords: [coords.lat, coords.lng] });
+  }
+
+  handleAddressChangeDest(dest) {
+    this.setState({ dest });
+  }
+
+  handleCoordsChangeDest(coords) {
+    this.setState({ destCoords: [coords.lat, coords.lng] });
+  }
+
+  handleDateChange(event) {
+    this.setState({ date: event });
+  }
+
+  handleTimeChange(time) {
+    this.setState({ time: time });
+  }
 
   render() {
     return (
       <div>
-        <Header />
+        <Header
+          onSearch={this.handleSearch}
+          onAddressChangeOrigin={this.handleAddressChangeOrigin}
+          onAddressChangeDest={this.handleAddressChangeDest}
+          onCoordsChangeOrigin={this.handleCoordsChangeOrigin}
+          onCoordsChangeDest={this.handleCoordsChangeDest}
+          onDateChange={this.handleDateChange}
+          onTimeChange={this.handleTimeChange}
+        />
         <div style={styles.postContainer}>
-          //filter to be changed later. This is just a POC
-          {data.filter(item => item.origin==="Omni Hotel").map(item => (
+          {data.map(item => (
             <Post
               name={item.name}
               origin={item.origin}
