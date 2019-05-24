@@ -113,9 +113,6 @@ class Header extends React.Component {
             </Typography>
 
             <div className={classes.grow} />
-
-
-            <form>
               <div>
                 <LocationSearchInput
                   onAddressChange={this.handleAddressChangeOrigin}/>
@@ -150,10 +147,9 @@ class Header extends React.Component {
                   onChange={this.handleTimeChange}
                 />
               </div>
-              <IconButton className={classes.searchButton} color="inherit" aria-label="Open drawer" >
-                <img src={require('./icons/search.svg')} onClick={this.props.onSearch}/>
-              </IconButton>
-            </form>
+              <button className={classes.searchButton} color="inherit" aria-label="Open drawer" onClick={this.props.onSearch}>
+                <img src={require('./icons/search.svg')} />
+              </button>
           </Toolbar>
         </AppBar>
       </div>
