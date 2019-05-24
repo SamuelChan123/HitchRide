@@ -13,6 +13,7 @@ import PostMap from "./PostMap";
 const styles = theme => ({
   card: {
     width: 800,
+    height: 180,
     margin: "10px",
     display: "flex",
     flexDirection: "row",
