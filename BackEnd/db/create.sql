@@ -6,14 +6,11 @@ name VARCHAR(64) NOT NULL,
  phone VARCHAR(32), rating FLOAT(32));
 
 CREATE TABLE Entry
-(id SERIAL PRIMARY KEY,
- personId INTEGER UNIQUE NOT NULL,
- origin FLOAT(48) NOT NULL, destination FLOAT(48) NOT NULL,
- startTime TIMESTAMP NOT NULL, radiusMiles FLOAT(48) NOT NULL, type VARCHAR(32), comment VARCHAR(64));
+(id SERIAL PRIMARY KEY, personid INTEGER UNIQUE NOT NULL, originLatitude FLOAT(48) NOT NULL, originLongitude FLOAT(48) NOT NULL, destLatitude FLOAT(48) NOT NULL, destLongitude FLOAT(48) NOT NULL, startTime TIMESTAMP NOT NULL, radiusMiles FLOAT(48) NOT NULL, type VARCHAR(32), comment VARCHAR(64));
 
 CREATE TABLE Groups
 (id SERIAL PRIMARY KEY,
-  group_members VARCHAR(128) NOT NULL);
+  group_members VARCHAR(128) NOT NULL, originLatitude FLOAT(48) NOT NULL, originLongitude FLOAT(48) NOT NULL, destLatitude FLOAT(48) NOT NULL, destLongitude FLOAT(48) NOT NULL,  startTime TIMESTAMP NOT NULL);
 
  CREATE FUNCTION FuncEntryCheck() RETURNS TRIGGER AS $$
  BEGIN

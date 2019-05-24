@@ -61,7 +61,7 @@ def create_entry():
     data = request.json    
     #data = request.get_json()
     maxID = db.session.query(func.max(models.Entry.id)).scalar() #gets current maximum ID in Entry table
-    new_entry = models.Entry(id=maxID+1, personId=data['personId'], origin=data['origin'], destination=data['destination'], startTime=data['starttime'], radiusMiles=data['radiusmiles'], type=data['type'], comment=data['comment'])
+    new_entry = models.Entry(id=maxID+1, personid=data['personid'], originLatitude=data['originLatitude'], originLongitude=data['originLongitude'], destLatitude=data['destLatitude'], destLongitude=data['destLongitude'], startTime=data['starttime'], radiusMiles=data['radiusmiles'], type=data['type'], comment=data['comment'])
     db.session.add(new_entry)
     db.session.commit()
     return jsonify({'json':data})    
@@ -76,9 +76,11 @@ def get_all_entries():
     for entry in entries:
         entry_data = {}
         entry_data['id'] = entry.id
-        entry_data['personId'] = entry.personId
-        entry_data['origin'] = entry.origin
-        entry_data['destination'] = entry.destination
+        entry_data['personid'] = entry.personid
+        entry_data['originLatitude'] = entry.originLatitude
+	entry_data['originLongitude'] = entry.originLongitude
+        entry_data['destLatitude'] = entry.destLatitude
+	entry_data['destLongitude'] = entry.destLongitude
         entry_data['starttime'] = entry.startTime
         entry_data['radiusmiles'] = entry.radiusMiles
         entry_data['type'] = entry.type
@@ -152,9 +154,11 @@ def get_one_entry(entry_id):
         entry_data = {}
 
         entry_data['id'] = entry.id
-        entry_data['personId'] = entry.personId
-        entry_data['origin'] = entry.origin
-        entry_data['destination'] = entry.destination
+        entry_data['personid'] = entry.personid
+        entry_data['originLatitude'] = entry.originLatitude
+	entry_data['originLongitude'] = entry.originLongitude
+        entry_data['destLatitude'] = entry.destLatitude
+	entry_data['destLongitude'] = entry.destLongitude
         entry_data['startTime'] = entry.startTime
         entry_data['type'] = entry.type
         entry_data['radiusMiles'] = entry.radiusMiles
@@ -181,7 +185,7 @@ def delete_entry(entry_id):
 def create_group():
     data = request.get_json()
     maxID = db.session.query(func.max(models.Person.id)).scalar() #gets current maximum ID in Person table
-    new_group = models.Groups(id=maxID+1, group_members=data['group_members'])
+    new_group = models.Groups(id=maxID+1, group_members=data['group_members'], originLatitude = data['originLatitude'], originLongitude=data['originLongitude'], destLatitude=data['destLatitude'], destLongitude=data['destLongitude'], startTime=data['starttime'])
     db.session.add(new_group)
     db.session.commit()
     return jsonify({'message' : 'New group created!'})
@@ -251,9 +255,11 @@ def put_entry():
         return jsonify({'message': 'No entry found!'})
 
     entry.id = data['id']
-    entry.personId = data['personId']
-    entry.origin = data['origin']
-    entry.destination = data['destination']
+    entry.personid = data['personid']
+    entry.originLatitude = data['originLatitude']
+    entry.originLongitude = data['originLongitude']
+    entry.destLatitude = data['destLatitude']
+    entry.destLongitude = data['destLongitude']
     entry.startTime = data['startTime']
     entry.endTime = data['endTime']
     entry.type = data['type']
