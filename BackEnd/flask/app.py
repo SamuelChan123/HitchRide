@@ -61,7 +61,7 @@ def create_entry():
     data = request.json    
     #data = request.get_json()
     maxID = db.session.query(func.max(models.Entry.id)).scalar() #gets current maximum ID in Entry table
-    new_entry = models.Entry(id=maxID+1, personid=data['personid'], origin=data['origin'], destination=data['destination'], startTime=data['starttime'], radiusMiles=data['radiusmiles'], type=data['type'], comment=data['comment'])
+    new_entry = models.Entry(id=maxID+1, personid=data['personid'], originlatitude=data['originlatitude'], originlongitude = data['originlongitude'],destlatitude=data['destlatitude'], destlongitude=data['destlongitude'], starttime=data['starttime'], radiusmiles=data['radiusmiles'], type=data['type'], comment=data['comment'])
     records = db_session.query(models.Groups).filter(models.Groups.originlatitutde.in_data["originlatitude"]).all()
     return jsonify({'results':records})
     db.session.add(new_entry)
