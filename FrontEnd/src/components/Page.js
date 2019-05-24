@@ -42,7 +42,7 @@ const data = [
 class Page extends React.Component {
   constructor() {
     super();
-    this.state = {};
+    this.state = {origin: "", dest: "", date: null, time: null};
     this.handleSearch = this.handleSearch.bind(this);
     this.handleAddressChangeOrigin = this.handleAddressChangeOrigin.bind(this);
     this.handleAddressChangeDest = this.handleAddressChangeDest.bind(this);
@@ -83,8 +83,7 @@ class Page extends React.Component {
 
         />
         <div style={styles.postContainer}>
-          {/*filter to be changed later. This is just a POC*/}
-          {data.filter(item => item.origin==="Omni Hotel").map(item => (
+          {data.map(item => (
             <Post
               name={item.name}
               origin={item.origin}
