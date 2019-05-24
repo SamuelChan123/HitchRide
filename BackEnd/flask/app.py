@@ -33,14 +33,14 @@ def home():
 #Inserting a row into the Person table
 @app.route('/person', methods=['POST'])
 def create_person():
-    data = request.get_json()
+    data = request.json
     maxID = db.session.query(func.max(models.Person.id)).scalar() #gets current maximum ID in Person table
-    new_person = models.Person(id=maxID+1, name=data['name'], email=data['email'], password=data['password'], phone=data['phone'], rating=data['rating'])
+    new_person = models.Person(id=maxID+1, name=data['name'], email=data['email'], phone=data['phone'], rating=data['rating'])
     db.session.add(new_person)
     db.session.commit()
-    return jsonify({'message' : 'New user created!'})
+    return jsonify({'json':data})    
 
-#Return all Persons (users)
+#Return all Persons
 @app.route('/person', methods=['GET'])
 def get_all_persons():
     persons = models.Person.query.all()
@@ -61,11 +61,12 @@ def create_entry():
     data = request.json    
     #data = request.get_json()
     maxID = db.session.query(func.max(models.Entry.id)).scalar() #gets current maximum ID in Entry table
-    new_entry = models.Entry(id=maxID+1, personId=data['personId'], origin=data['origin'], destination=data['destination'], startTime=data['starttime'], endTime=data['endtime'], radiusMiles=data['radiusmiles'], type=data['type'], comment=data['comment'])
+    new_entry = models.Entry(id=maxID+1, personId=data['personId'], origin=data['origin'], destination=data['destination'], startTime=data['starttime'], radiusMiles=data['radiusmiles'], type=data['type'], comment=data['comment'])
     db.session.add(new_entry)
     db.session.commit()
     return jsonify({'json':data})    
 #return jsonify({'message' : 'New entry created!', 'maxid':maxID, 'personid':data['personId'], 'origin':data['origin']})
+
 
 #Return all Entries
 @app.route('/entry', methods=['GET'])
@@ -79,7 +80,6 @@ def get_all_entries():
         entry_data['origin'] = entry.origin
         entry_data['destination'] = entry.destination
         entry_data['starttime'] = entry.startTime
-        entry_data['endtime'] = entry.endTime
         entry_data['radiusmiles'] = entry.radiusMiles
         entry_data['type'] = entry.type
         entry_data['comment'] = entry.comment
@@ -106,13 +106,10 @@ def get_one_person(person_id):
 
         return jsonify({'person' : person_data})
 
-# Delete a Person: in the future, the "admin" row in Person table will be used to determine whether a user (Person) has access to deletion
-# Also must add function to promote a Person to admin
+# Delete a Person
 @app.route('/person/<person_id>', methods=['DELETE'])
 def delete_person(person_id):
-    #add admin permissions
-    # if not current_user.admin:
-    #     return jsonify({'message' : 'Cannot perform that function!'})
+
     person = db.session.query(models.Person)\
         .filter(models.Person.id == person_id).first()
 
@@ -123,9 +120,27 @@ def delete_person(person_id):
     db.session.commit()
     return jsonify({'message' : 'The user has been deleted!'})
 
+# Update a Person
+@app.route('/person/<person_id>', methods=['PUT'])
+def put_person():
+    data = request.get_json()
+
+    person = db.session.query(models.Person)\
+        .filter(models.Person.id == person_id).first()
+
+    if not person:
+        return jsonify({'message': 'No user found!'})
+
+    person.name = data['name']
+    person.email = data['email']
+    person.phone = data['phone']
+    person.rating = data['rating']
+
+    db.session.commit()
+    return jsonify({'message' : 'The user has been modified!'})
 
 
-#Get one row in Person by ID
+#Get one row in Entry by ID
 @app.route('/entry/<entry_id>', methods=['GET'])
 def get_one_entry(entry_id):
         entry = db.session.query(models.Entry)\
@@ -141,14 +156,13 @@ def get_one_entry(entry_id):
         entry_data['origin'] = entry.origin
         entry_data['destination'] = entry.destination
         entry_data['startTime'] = entry.startTime
-        entry_data['endTime'] = entry.endTime
         entry_data['type'] = entry.type
         entry_data['radiusMiles'] = entry.radiusMiles
         entry_data['comment'] = entry.comment
 
         return jsonify({'entry' : entry_data})
 
-# Delete a Person
+# Delete a Entry
 @app.route('/entry/<entry_id>', methods=['DELETE'])
 def delete_entry(entry_id):
 
@@ -162,6 +176,107 @@ def delete_entry(entry_id):
     db.session.commit()
     return jsonify({'message' : 'The entry has been deleted!'})
 
+#Inserting a row into the Groups table
+@app.route('/groups', methods=['POST'])
+def create_group():
+    data = request.get_json()
+    maxID = db.session.query(func.max(models.Person.id)).scalar() #gets current maximum ID in Person table
+    new_group = models.Groups(id=maxID+1, group_members=data['group_members'])
+    db.session.add(new_group)
+    db.session.commit()
+    return jsonify({'message' : 'New group created!'})
+
+#Return all groups
+@app.route('/groups', methods=['GET'])
+def get_all_groups():
+    groups = models.Groups.query.all()
+    output = []
+    for group in groups:
+        group_data = {}
+        group_data['id'] = group.id
+        group_data['group_members'] = group.group_members
+
+        output.append(group_data)
+    return jsonify({'groups' : output})
+
+# Update a Group
+@app.route('/groups/groups_id', methods=['PUT'])
+def put_group():
+    data = request.get_json()
+
+    group = db.session.query(models.Groups)\
+        .filter(models.Groups.id == groups_id).first()
+
+    if not group:
+        return jsonify({'message': 'No group found!'})
+
+    group.id = data['id']
+    group.group_members += ( "," + data['id'] )
+
+
+    db.session.commit()
+    return jsonify({'message' : 'The group has been modified!'})
+
+
+
+
+#Get one row in Groups by ID
+@app.route('/groups/<groups_id>', methods=['GET'])
+def get_one_group(group_id):
+        group = db.session.query(models.Groups)\
+            .filter(models.Groups.id == group_id).first()
+
+        if not group:
+            return jsonify({'message' : 'No group found!'})
+
+        group_data = {}
+
+        group_data['id'] = group.id
+        group_data['group_members'] = group.group_members
+
+
+        return jsonify({'entry' : entry_data})
+
+
+
+# Update an Entry
+@app.route('/entry/<entry_id>', methods=['PUT'])
+def put_entry():
+    data = request.get_json()
+
+    entry = db.session.query(models.Entry)\
+        .filter(models.Entry.id == entry_id).first()
+
+    if not entry:
+        return jsonify({'message': 'No entry found!'})
+
+    entry.id = data['id']
+    entry.personId = data['personId']
+    entry.origin = data['origin']
+    entry.destination = data['destination']
+    entry.startTime = data['startTime']
+    entry.endTime = data['endTime']
+    entry.type = data['type']
+    entry.radiusMiles = data['radiusMiles']
+    entry.comment = data['comment']
+
+    db.session.commit()
+    return jsonify({'message' : 'The entry has been deleted!'})
+
+
+# Delete a group
+@app.route('/groups/<groups_id>', methods=['DELETE'])
+def delete_group(groups_id):
+
+    group = db.session.query(models.Groups)\
+        .filter(models.Groups.id == groups_id).first()
+
+    if not group:
+        return jsonify({'message': 'No entry found!'})
+
+    db.session.delete(group)
+    db.session.commit()
+    return jsonify({'message' : 'The group has been deleted!'})
 
 @app.template_filter('pluralize')
 def pluralize(number, singular='', plural='s'):
