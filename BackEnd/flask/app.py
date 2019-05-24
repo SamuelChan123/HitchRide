@@ -62,8 +62,25 @@ def create_entry():
     #data = request.get_json()
     maxID = db.session.query(func.max(models.Entry.id)).scalar() #gets current maximum ID in Entry table
     new_entry = models.Entry(id=maxID+1, personid=data['personid'], originlatitude=data['originlatitude'], originlongitude = data['originlongitude'],destlatitude=data['destlatitude'], destlongitude=data['destlongitude'], starttime=data['starttime'], radiusmiles=data['radiusmiles'], type=data['type'], comment=data['comment'])
-    records = db.session.query(models.Groups).filter_by(originlatitude = data["originlatitude"]).all()
-    return jsonify({'results':records})
+    records = db.session.query(models.Groups).filter_by(destlatitude = data["destlatitude"]).all()
+    #records = Groups.query.filter_by(originlatitude=data['originlatitude']).all()
+    print("fslkjfslkjfslkjs")
+    output = []
+    for item in records:
+	x = {}
+	x['group_members'] = item.group_members
+	x['originlatitude'] = item.originlatitude
+	x['originlongitude'] = item.originlongitude
+	x['destlatitude'] = item.destlatitude
+	x['destlongitude'] = item.destlongitude
+	x['starttime'] = item.starttime
+	output.append(x)
+    return jsonify({'output':output})
+    #print(records[0].destlatitude)
+    #return jsonify({'json':records[0].originlatitude})
+    #print(records)
+    #print(jsonify(json_list = records))
+    #print(jsonify({'results':records}))
     db.session.add(new_entry)
     db.session.commit()
     return jsonify({'json':data})
@@ -187,7 +204,7 @@ def delete_entry(entry_id):
 @app.route('/groups', methods=['POST'])
 def create_group():
     data = request.get_json()
-    maxID = db.session.query(func.max(models.Person.id)).scalar() #gets current maximum ID in Person table
+    maxID = db.session.query(func.max(models.Groups.id)).scalar() #gets current maximum ID in Person table
     new_group = models.Groups(id=maxID+1, group_members=data['group_members'], originlatitude=data['originlatitude'], originlongitude=data['originlongitude'],destlatitude=data['destlatitude'],destlongitude=data['destlongitude'],starttime=data['starttime'])
     db.session.add(new_group)
     db.session.commit()
