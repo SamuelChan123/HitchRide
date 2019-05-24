@@ -73,6 +73,35 @@ const styles = theme => ({
 });
 
 class Header extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {origin: 'test'}
+    this.handleAddressChangeOrigin = this.handleAddressChangeOrigin.bind(this);
+    this.handleAddressChangeDest = this.handleAddressChangeDest.bind(this);
+    this.handleDateChange = this.handleDateChange.bind(this);
+    this.handleTimeChange = this.handleTimeChange.bind(this);
+
+  }
+  
+  handleAddressChangeOrigin(origin) {
+    this.props.onAddressChangeOrigin(origin);
+  }
+
+  handleAddressChangeDest(dest) {
+    this.props.onAddressChangeDest(dest);
+  }
+
+  handleDateChange(event) {
+    this.setState({date: event.target.value});
+    this.props.onDateChange(event.target.value);
+  }
+
+  handleTimeChange(time) {
+    this.setState({time: time.target.value});
+    this.props.onTimeChange(time.target.value);
+  }
+
   render() {
     const { classes } = this.props;
     return (
@@ -85,39 +114,46 @@ class Header extends React.Component {
 
             <div className={classes.grow} />
 
-            <div>
-              <LocationSearchInput />
-            </div>
-            <div>
-              <LocationSearchInput />
-            </div>
-            <div className={classes.search}>
-              <InputBase
-                id="Date"
-                placeholder="Departure Date"
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput,
-                }}
-                type="date"
-                required={true}
-              />
-            </div>
-            <div className={classes.search}>
-              <InputBase
-                id="Time"
-                placeholder="Departure Time"
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput,
-                }}
-                type="time"
-                required={true}
-              />
-            </div>
-            <IconButton className={classes.searchButton} color="inherit" aria-label="Open drawer">
-              <img src={require('./icons/search.svg')}/>
-            </IconButton>
+
+            <form>
+              <div>
+                <LocationSearchInput
+                  onAddressChange={this.handleAddressChangeOrigin}/>
+              </div>
+              <div>
+                <LocationSearchInput 
+                onAddressChange={this.handleAddressChangeDest}/>
+              </div>
+              <div className={classes.search}>
+                <InputBase
+                  id="Date"
+                  placeholder="Departure Date"
+                  classes={{
+                    root: classes.inputRoot,
+                    input: classes.inputInput,
+                  }}
+                  type="date"
+                  required={true}
+                  onChange={this.handleDateChange}
+                />
+              </div>
+              <div className={classes.search}>
+                <InputBase
+                  id="Time"
+                  placeholder="Departure Time"
+                  classes={{
+                    root: classes.inputRoot,
+                    input: classes.inputInput,
+                  }}
+                  type="time"
+                  required={true}
+                  onChange={this.handleTimeChange}
+                />
+              </div>
+              <IconButton className={classes.searchButton} color="inherit" aria-label="Open drawer" >
+                <img src={require('./icons/search.svg')} onClick={this.props.onSearch}/>
+              </IconButton>
+            </form>
           </Toolbar>
         </AppBar>
       </div>
