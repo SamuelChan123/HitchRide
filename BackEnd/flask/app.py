@@ -58,12 +58,14 @@ def get_all_persons():
 #Inserting a row into the Entry table
 @app.route('/entry', methods=['POST'])
 def create_entry():
-    data = request.get_json()
+    data = request.json    
+    #data = request.get_json()
     maxID = db.session.query(func.max(models.Entry.id)).scalar() #gets current maximum ID in Entry table
     new_entry = models.Entry(id=maxID+1, personId=data['personId'], origin=data['origin'], destination=data['destination'], startTime=data['starttime'], endTime=data['endtime'], radiusMiles=data['radiusmiles'], type=data['type'], comment=data['comment'])
     db.session.add(new_entry)
     db.session.commit()
-    return jsonify({'message' : 'New entry created!'})
+    return jsonify({'json':data})    
+#return jsonify({'message' : 'New entry created!', 'maxid':maxID, 'personid':data['personId'], 'origin':data['origin']})
 
 #Return all Entries
 @app.route('/entry', methods=['GET'])
