@@ -35,7 +35,7 @@ def home():
 def create_person():
     data = request.json
     maxID = db.session.query(func.max(models.Person.id)).scalar() #gets current maximum ID in Person table
-    new_person = models.Person(id=maxID+1, name=data['name'], email=data['email'], password=data['password'], phone=data['phone'], rating=data['rating'])
+    new_person = models.Person(id=maxID+1, name=data['name'], email=data['email'], phone=data['phone'], rating=data['rating'])
     db.session.add(new_person)
     db.session.commit()
     return jsonify({'json':data})    
@@ -61,7 +61,7 @@ def create_entry():
     data = request.json    
     #data = request.get_json()
     maxID = db.session.query(func.max(models.Entry.id)).scalar() #gets current maximum ID in Entry table
-    new_entry = models.Entry(id=maxID+1, personId=data['personId'], origin=data['origin'], destination=data['destination'], startTime=data['starttime'], endTime=data['endtime'], radiusMiles=data['radiusmiles'], type=data['type'], comment=data['comment'])
+    new_entry = models.Entry(id=maxID+1, personId=data['personId'], origin=data['origin'], destination=data['destination'], startTime=data['starttime'], radiusMiles=data['radiusmiles'], type=data['type'], comment=data['comment'])
     db.session.add(new_entry)
     db.session.commit()
     return jsonify({'json':data})    
@@ -79,7 +79,6 @@ def get_all_entries():
         entry_data['origin'] = entry.origin
         entry_data['destination'] = entry.destination
         entry_data['starttime'] = entry.startTime
-        entry_data['endtime'] = entry.endTime
         entry_data['radiusmiles'] = entry.radiusMiles
         entry_data['type'] = entry.type
         entry_data['comment'] = entry.comment
@@ -141,7 +140,6 @@ def get_one_entry(entry_id):
         entry_data['origin'] = entry.origin
         entry_data['destination'] = entry.destination
         entry_data['startTime'] = entry.startTime
-        entry_data['endTime'] = entry.endTime
         entry_data['type'] = entry.type
         entry_data['radiusMiles'] = entry.radiusMiles
         entry_data['comment'] = entry.comment
