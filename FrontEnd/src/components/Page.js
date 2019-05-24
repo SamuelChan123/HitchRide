@@ -42,10 +42,11 @@ class Page extends React.Component {
     console.log(this.state.originCoords);
     console.log(this.state.destCoords);
     const rand = Math.floor(Math.random() * Math.floor(10000));
+    console.log(this.state);
     axios.post(
       (process.env.BACKEND_URL || "http://18.215.243.105:5000") + "/entry",
       {
-        personid: 2,
+        personid: {rand},
         originlatitude: this.state.originCoords[0],
         originlongitude: this.state.originCoords[1],
         destlatitude: this.state.destCoords[0],
@@ -73,41 +74,54 @@ class Page extends React.Component {
       });
   }
 
-  handleMakeRide() {
-    console.log(this.state.originCoords);
-    console.log(this.state.date);
-    this.setState({
-      driver_name: prompt(
-        "What is the name of the driver or the ride initiator?"
-      )
-    });
-    axios.post(
-      (process.env.BACKEND_URL || "http://18.215.243.105:5000") + "/groups",
-      {
-        group_members: this.state.driver_name,
-        originlatitude: this.state.originCoords[0],
-        originlongitude: this.state.originCoords[1],
-        destlatitude: this.state.destCoords[0],
-        destlongitude: this.state.destCoords[1],
-        starttime: this.state.date + " " + this.state.time
-      }
-    );
+  handleMakeRide(o, d, t, da) {
+    console.log(o);
+    console.log(d);
+    //console.log(this.state.date);
+    // this.setState({
+    //   driver_name: prompt(
+    //     "What is the name of the driver or the ride initiator?"
+    //   )
+    // });
+    // console.log(this.state);
+    // axios.post(
+    //   (process.env.BACKEND_URL || "http://18.215.243.105:5000") + "/groups",
+    //   {
+    //     group_members: this.state.driver_name,
+    //     originlatitude: this.state.originCoords[0],
+    //     originlongitude: this.state.originCoords[1],
+    //     destlatitude: this.state.destCoords[0],
+    //     destlongitude: this.state.destCoords[1],
+    //     starttime: this.state.date + " " + this.state.time
+    //   }
+    // );
   }
 
   handleAddressChangeOrigin(origin) {
+    console.log("HELLO")
+
     this.setState({ origin });
     console.log(this.state.origin);
   }
 
   handleCoordsChangeOrigin(coords) {
+    console.log("HELLO")
+
     this.setState({ originCoords: [coords.lat, coords.lng] });
   }
 
   handleAddressChangeDest(dest) {
+    console.log("HELLO")
+
     this.setState({ dest });
   }
 
   handleCoordsChangeDest(coords) {
+    console.log("HELLO")
+    console.log(coords)
+    alert("HELLO")
+    console.log(coords.lat)
+    console.log(coords.lng)
     this.setState({ destCoords: [coords.lat, coords.lng] });
   }
 

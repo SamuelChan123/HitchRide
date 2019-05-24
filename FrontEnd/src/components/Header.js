@@ -79,23 +79,27 @@ class Header extends React.Component {
     this.handleCoordsChangeDest = this.handleCoordsChangeDest.bind(this);
     this.handleDateChange = this.handleDateChange.bind(this);
     this.handleTimeChange = this.handleTimeChange.bind(this);
-    this.handleMakeRide = this.hand
+    this.handleMakeRide = this.handleMakeRide.bind(this);
   }
 
   handleAddressChangeOrigin(origin) {
+    this.setState(origin);
     this.props.onAddressChangeOrigin(origin);
   }
 
   handleCoordsChangeOrigin(origin) {
+    this.setState(origin);
     this.props.onCoordsChangeOrigin(origin);
   }
 
   handleAddressChangeDest(dest) {
+    this.setState(dest);
     this.props.onAddressChangeDest(dest);
   }
 
-  handleCoordsChangeDest(origin) {
-    this.props.onCoordsChangeDest(origin);
+  handleCoordsChangeDest(destCoords) {
+    this.setState(destCoords);
+    this.props.onCoordsChangeDest(destCoords);
   }
 
   handleDateChange(event) {
@@ -106,6 +110,11 @@ class Header extends React.Component {
   handleTimeChange(time) {
     this.setState({ time: time.target.value });
     this.props.onTimeChange(time.target.value);
+  }
+
+  handleMakeRide() {
+    console.log(this.state.origin);
+    this.props.handleMakeRide(this.state.origin, this.state.dest, this.state.time, this.state.date);
   }
 
   render() {
