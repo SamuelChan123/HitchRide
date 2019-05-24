@@ -124,14 +124,14 @@ this.setState({data:groups});
         <div style={styles.postContainer}>
           {this.state.data.map(item => (
             <Post
-              name={item.name}
-              origin={item.origin}
-              destination={item.destination}
-              time={item.time}
-              originCoords={item.originCoords}
-              destinationCoords={item.destinationCoords}
-              key={item.name + item.time}
-              passengers={item.passengers}
+              name={item.group_members.split(",")[0]}
+              origin= ""
+              destination = ""
+              time={item.starttime}
+              originCoords={[item.originlatitude, item.originlongitude]}
+              destinationCoords={[item.destlatitude, item.destlongitude]}
+              key={item.group_members.split(",")[0] + item.starttime}
+              passengers={item.group_members}
               onAddPass={this.handleAddPass}
             />
           ))}
