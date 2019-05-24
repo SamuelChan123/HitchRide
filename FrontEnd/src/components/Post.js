@@ -7,13 +7,14 @@ import CardHeader from "@material-ui/core/CardHeader";
 import CardContent from "@material-ui/core/CardContent";
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
+import Button from '@material-ui/core/Button';
 
 import PostMap from "./PostMap";
 
 const styles = theme => ({
   card: {
     width: 800,
-    height: 180,
+    height: 220,
     margin: "10px",
     display: "flex",
     flexDirection: "row",
@@ -29,6 +30,10 @@ class Post extends React.Component {
   constructor() {
     super();
     this.state = {};
+  }
+
+  handleClick() {
+    
   }
 
   render() {
@@ -56,7 +61,15 @@ class Post extends React.Component {
               <Typography paragraph>
                 Destination: {this.props.destination}
               </Typography>
+              <Typography paragraph>
+                Passengers: {this.props.passengers.join(", ")}
+              </Typography>
             </CardContent>
+          </div>
+          <div>
+          <Button variant="contained" color="primary" onClick={this.handleClick}>
+            Join
+          </Button>
           </div>
           <div id="map-container">
             <PostMap

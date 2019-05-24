@@ -22,7 +22,8 @@ const data = [
     destination: "Omni Hotel",
     time: "May 25 at 1:00pm",
     originCoords: [52.505, -0.09],
-    destinationCoords: [52.555, -0.09]
+    destinationCoords: [52.555, -0.09],
+    passengers: ["Joe Smith","Billy Bob"]
   },
   {
     name: "Benny Beinish",
@@ -30,7 +31,8 @@ const data = [
     destination: "Richmond Airport",
     time: "May 24 at 3:00pm",
     originCoords: [51.505, -0.09],
-    destinationCoords: [51.555, -0.09]
+    destinationCoords: [51.555, -0.09],
+    passengers: []
   },
   {
     name: "Samarth Kishor",
@@ -38,7 +40,8 @@ const data = [
     destination: "A tall cliff",
     time: "May 25 at 5:00am",
     originCoords: [51.505, -1.09],
-    destinationCoords: [51.555, -1.09]
+    destinationCoords: [51.555, -1.09],
+    passengers: []
   }
 ];
 
@@ -129,6 +132,7 @@ class Page extends React.Component {
               originCoords={item.originCoords}
               destinationCoords={item.destinationCoords}
               key={item.name + item.time}
+              passengers={item.passengers}
             />
           ))}
         </div>
