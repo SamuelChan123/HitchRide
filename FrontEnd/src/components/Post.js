@@ -44,7 +44,7 @@ class Post extends React.Component {
     this.props.onAddPass(passengers);
 
     axios.post(
-      (process.env.BACKEND_URL || "http://localhost:5000") + "/groups/",
+      (process.env.BACKEND_URL || "http://localhost:5000") + "/groups",
       {
         personId: 1,
         origin: this.state.originCoords[0],

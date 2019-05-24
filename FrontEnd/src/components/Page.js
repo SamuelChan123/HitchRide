@@ -15,7 +15,6 @@ const styles = {
   }
 };
 
-let data = [];
 
 class Page extends React.Component {
   constructor() {
@@ -23,6 +22,7 @@ class Page extends React.Component {
     this.state = {
       origin: "",
       dest: "",
+data : [],
       date: null,
       time: null,
       originCoords: [],
@@ -42,7 +42,7 @@ class Page extends React.Component {
   handleSearch() {
     console.log(this.state.originCoords);
     console.log(this.state.destCoords);
-    axios.post((process.env.BACKEND_URL || 'http://localhost:5000') + "/entry", {
+    axios.post((process.env.BACKEND_URL || 'http://18.215.243.105:5000') + "/entry", {
       personId: 1,
       originlatitude: this.state.originCoords[0],
       originlongitude: this.state.originCoords[1],
@@ -55,20 +55,27 @@ class Page extends React.Component {
     });
   }
 
+componentDidMount() {
+   axios.get((process.env.REACT_APP_BACKEND_URL || 'http://18.215.243.105:5000') + '/groups').then(res => {
+            console.log(res);
+      console.log(res.data);
+      console.log(res.data.groups);
+      let groups = res.data.groups;
+this.setState({data:groups});
+    });
+}
+
   handleMakeRide() {
     console.log(this.state.originCoords);
     console.log(this.state.date);
     this.setState({driver_name: prompt("What is the name of the driver or the ride initiator?")});
-    axios.post((process.env.BACKEND_URL || 'http://localhost:5000') + "/groups", {
+    axios.post((process.env.BACKEND_URL || 'http://18.215.243.105:5000') + "/groups", {
       group_members: this.state.driver_name,
       originlatitude: this.state.originCoords[0],
       originlongitude: this.state.originCoords[1],
       destlatitude: this.state.destCoords[0],
       destlongitude: this.state.destCoords[1],
-      starttime: this.state.date + " " + this.state.time,
-      radiusmiles: 0.5,
-      type: "Uber",
-      comment: "I would love a ride to these locations!"
+      starttime: this.state.date + " " + this.state.time
     });
   }
 
@@ -88,8 +95,7 @@ class Page extends React.Component {
     this.setState({ destCoords: [coords.lat, coords.lng] });
   }
 
-  handleDateChange(event) {
-    this.setState({ date: event });
+  handleDateChange(event) {    this.setState({ date: event });
   }
 
   handleTimeChange(time) {
@@ -103,12 +109,7 @@ class Page extends React.Component {
 
   render() {
 
-
-    axios.get((process.env.REACT_APP_BACKEND_URL || 'http://localhost:5000') + '/groups').then(res => {
-      this.setState(res);
-    });
-
-    return (
+   return (
       <div>
         <Header
           onSearch={this.handleSearch}
@@ -121,7 +122,7 @@ class Page extends React.Component {
           makeRide={this.handleMakeRide}
         />
         <div style={styles.postContainer}>
-          {data.map(item => (
+          {this.state.data.map(item => (
             <Post
               name={item.name}
               origin={item.origin}
