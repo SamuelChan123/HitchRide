@@ -19,6 +19,7 @@ class Page extends React.Component {
   constructor() {
     super();
     this.state = {
+      driver_name: "",
       origin: "",
       dest: "",
       data: [],
@@ -77,24 +78,28 @@ class Page extends React.Component {
   handleMakeRide(o, d, t, da) {
     console.log(o);
     console.log(d);
-    //console.log(this.state.date);
-    // this.setState({
-    //   driver_name: prompt(
-    //     "What is the name of the driver or the ride initiator?"
-    //   )
-    // });
-    // console.log(this.state);
-    // axios.post(
-    //   (process.env.BACKEND_URL || "http://18.215.243.105:5000") + "/groups",
-    //   {
-    //     group_members: this.state.driver_name,
-    //     originlatitude: this.state.originCoords[0],
-    //     originlongitude: this.state.originCoords[1],
-    //     destlatitude: this.state.destCoords[0],
-    //     destlongitude: this.state.destCoords[1],
-    //     starttime: this.state.date + " " + this.state.time
-    //   }
-    // );
+    console.log(this.state.date);
+    this.setState({
+      driver_name: prompt(
+        "What is the name of the driver or the ride initiator?"
+      )
+    });
+    console.log(this.state);
+    axios.post(
+      (process.env.BACKEND_URL || "http://18.215.243.105:5000") + "/groups",
+      {
+        group_members: this.state.driver_name,
+        // originlatitude: this.state.originCoords[0],
+        // originlongitude: this.state.originCoords[1],
+        // destlatitude: this.state.destCoords[0],
+        // destlongitude: this.state.destCoords[1],
+        originlatitude: 23.3,
+        originlongitude: 23.3,
+        destlatitude: 23.3,
+        destlongitude: 23.4,
+        starttime: this.state.date + " " + this.state.time
+      }
+    );
   }
 
   handleAddressChangeOrigin(origin) {
