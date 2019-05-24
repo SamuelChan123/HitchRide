@@ -42,6 +42,7 @@ class Post extends React.Component {
     );
 
     this.setState({ passengers });
+    this.props.onAddPass(passengers);
   }
 
   render() {

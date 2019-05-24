@@ -64,6 +64,7 @@ class Page extends React.Component {
     this.handleDateChange = this.handleDateChange.bind(this);
     this.handleTimeChange = this.handleTimeChange.bind(this);
     this.handleMakeRide = this.handleMakeRide.bind(this);
+    this.handleAddPass = this.handleAddPass.bind(this);
   }
 
   handleSearch() {
@@ -111,6 +112,11 @@ class Page extends React.Component {
     this.setState({ time: time });
   }
 
+  handleAddPass(passengers) {
+    //passengers is the recently added p
+
+  }
+
   render() {
     return (
       <div>
@@ -135,6 +141,7 @@ class Page extends React.Component {
               destinationCoords={item.destinationCoords}
               key={item.name + item.time}
               passengers={item.passengers}
+              onAddPass={this.handleAddPass}
             />
           ))}
         </div>
