@@ -38,7 +38,7 @@ def create_person():
     db.session.commit()
     return jsonify({'message' : 'New user created!'})
 
-#Return all Persons (users)
+#Return all Persons
 @app.route('/person', methods=['GET'])
 def get_all_persons():
     persons = models.Person.query.all()
@@ -62,6 +62,7 @@ def create_entry():
     db.session.add(new_entry)
     db.session.commit()
     return jsonify({'message' : 'New entry created!'})
+
 
 #Return all Entries
 @app.route('/entry', methods=['GET'])
@@ -102,13 +103,10 @@ def get_one_person(person_id):
 
         return jsonify({'person' : person_data})
 
-# Delete a Person: in the future, the "admin" row in Person table will be used to determine whether a user (Person) has access to deletion
-# Also must add function to promote a Person to admin
+# Delete a Person
 @app.route('/person/<person_id>', methods=['DELETE'])
 def delete_person(person_id):
-    #add admin permissions
-    # if not current_user.admin:
-    #     return jsonify({'message' : 'Cannot perform that function!'})
+
     person = db.session.query(models.Person)\
         .filter(models.Person.id == person_id).first()
 
@@ -119,6 +117,24 @@ def delete_person(person_id):
     db.session.commit()
     return jsonify({'message' : 'The user has been deleted!'})
 
+# Update a Person
+@app.route('/person/<person_id>', methods=['PUT'])
+def put_person():
+    data = request.get_json()
+
+    person = db.session.query(models.Person)\
+        .filter(models.Person.id == person_id).first()
+
+    if not person:
+        return jsonify({'message': 'No user found!'})
+
+    person.name = data['name']
+    person.email = data['email']
+    person.phone = data['phone']
+    person.rating = data['rating']
+
+    db.session.commit()
+    return jsonify({'message' : 'The user has been modified!'})
 
 
 #Get one row in Entry by ID
@@ -200,6 +216,31 @@ def get_one_group(group_id):
 
         return jsonify({'entry' : entry_data})
 
+
+
+# Update an Entry
+@app.route('/entry/<entry_id>', methods=['PUT'])
+def put_entry():
+    data = request.get_json()
+
+    entry = db.session.query(models.Entry)\
+        .filter(models.Entry.id == entry_id).first()
+
+    if not entry:
+        return jsonify({'message': 'No entry found!'})
+
+    entry.id = data['id']
+    entry.personId = data['personId']
+    entry.origin = data['origin']
+    entry.destination = data['destination']
+    entry.startTime = data['startTime']
+    entry.endTime = data['endTime']
+    entry.type = data['type']
+    entry.radiusMiles = data['radiusMiles']
+    entry.comment = data['comment']
+
+    db.session.commit()
+    return jsonify({'message' : 'The entry has been deleted!'})
 
 
 @app.template_filter('pluralize')
