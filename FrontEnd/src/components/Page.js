@@ -69,20 +69,22 @@ class Page extends React.Component {
   handleSearch() {
     console.log(this.state.originCoords);
     console.log(this.state.destCoords);
-    axios.post(process.env.BACKEND_URL + "/entry", {
+    axios.post((process.env.BACKEND_URL || 'http://localhost:5000') + "/entry", {
       personId: 1,
       origin: this.state.originCoords[0],
       destination: this.state.destCoords[1],
-      starttime: this.state.time,
-      endtime: this.state.time,
+      starttime: this.state.date + " " + this.state.time,
+      endtime: this.state.date + " " + this.state.time,
+      radiusmiles: 0,
       type: "Uber",
-      commeht: "yeet"
+      comment: "yeet"
     });
   }
 
   handleMakeRide() {
     console.log(this.state.originCoords);
     console.log(this.state.date);
+    this.setState({driver_name: prompt("test prompt")});
   }
 
   handleAddressChangeOrigin(origin) {
