@@ -4,6 +4,10 @@ import PlacesAutocomplete, {
   getLatLng
 } from "react-places-autocomplete";
 
+import TextField from "@material-ui/core/TextField";
+import Paper from "@material-ui/core/Paper";
+import MenuItem from "@material-ui/core/MenuItem";
+
 class LocationSearchInput extends React.Component {
   constructor(props) {
     super(props);
@@ -17,7 +21,12 @@ class LocationSearchInput extends React.Component {
   handleSelect = address => {
     geocodeByAddress(address)
       .then(results => getLatLng(results[0]))
-      .then(latLng => console.log("Success", latLng))
+      .then(latLng => {
+        console.log("Success", latLng);
+        this.setState({ address: address });
+        this.props.onAddressChange(address);
+        this.props.onCoordsChange(latLng);
+      })
       .catch(error => console.error("Error", error));
   };
 
@@ -30,13 +39,16 @@ class LocationSearchInput extends React.Component {
       >
         {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
           <div>
-            <input
+            <TextField
               {...getInputProps({
                 placeholder: "Search Places ...",
                 className: "location-search-input"
               })}
             />
-            <div className="autocomplete-dropdown-container">
+            <Paper
+              style={{ zIndex: 100, position: "absolute" }}
+              className="autocomplete-dropdown-container"
+            >
               {loading && <div>Loading...</div>}
               {suggestions.map(suggestion => {
                 const className = suggestion.active
@@ -44,20 +56,28 @@ class LocationSearchInput extends React.Component {
                   : "suggestion-item";
                 // inline style for demonstration purpose
                 const style = suggestion.active
-                  ? { backgroundColor: "#fafafa", cursor: "pointer" }
-                  : { backgroundColor: "#ffffff", cursor: "pointer" };
+                  ? {
+                      backgroundColor: "#fafafa",
+                      cursor: "pointer",
+                      zIndex: 1
+                    }
+                  : {
+                      backgroundColor: "#ffffff",
+                      cursor: "pointer",
+                      zIndex: 1
+                    };
                 return (
-                  <div
+                  <MenuItem
                     {...getSuggestionItemProps(suggestion, {
                       className,
                       style
                     })}
                   >
                     <span>{suggestion.description}</span>
-                  </div>
+                  </MenuItem>
                 );
               })}
-            </div>
+            </Paper>
           </div>
         )}
       </PlacesAutocomplete>
