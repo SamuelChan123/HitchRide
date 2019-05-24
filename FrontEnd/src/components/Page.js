@@ -15,14 +15,13 @@ const styles = {
   }
 };
 
-
 class Page extends React.Component {
   constructor() {
     super();
     this.state = {
       origin: "",
       dest: "",
-data : [],
+      data: [],
       date: null,
       time: null,
       originCoords: [],
@@ -42,41 +41,56 @@ data : [],
   handleSearch() {
     console.log(this.state.originCoords);
     console.log(this.state.destCoords);
-    axios.post((process.env.BACKEND_URL || 'http://18.215.243.105:5000') + "/entry", {
-      personId: 1,
-      originlatitude: this.state.originCoords[0],
-      originlongitude: this.state.originCoords[1],
-      destinationlatitude: this.state.destCoords[0],
-      destinationlongitude: this.state.destCoords[1],
-      starttime: this.state.date + " " + this.state.time,
-      radiusmiles: 0.5,
-      type: "Uber",
-      comment: "Let's go on a rideeeee"
-    });
+    axios.post(
+      (process.env.BACKEND_URL || "http://18.215.243.105:5000") + "/entry",
+      {
+        personId: 1,
+        originlatitude: this.state.originCoords[0],
+        originlongitude: this.state.originCoords[1],
+        destinationlatitude: this.state.destCoords[0],
+        destinationlongitude: this.state.destCoords[1],
+        starttime: this.state.date + " " + this.state.time,
+        radiusmiles: 0.5,
+        type: "Uber",
+        comment: "Let's go on a rideeeee"
+      }
+    );
   }
 
-componentDidMount() {
-   axios.get((process.env.REACT_APP_BACKEND_URL || 'http://18.215.243.105:5000') + '/groups').then(res => {
-            console.log(res);
-      console.log(res.data);
-      console.log(res.data.groups);
-      let groups = res.data.groups;
-this.setState({data:groups});
-    });
-}
+  componentDidMount() {
+    axios
+      .get(
+        (process.env.REACT_APP_BACKEND_URL || "http://18.215.243.105:5000") +
+          "/groups"
+      )
+      .then(res => {
+        console.log(res);
+        console.log(res.data);
+        console.log(res.data.groups);
+        let groups = res.data.groups;
+        this.setState({ data: groups });
+      });
+  }
 
   handleMakeRide() {
     console.log(this.state.originCoords);
     console.log(this.state.date);
-    this.setState({driver_name: prompt("What is the name of the driver or the ride initiator?")});
-    axios.post((process.env.BACKEND_URL || 'http://18.215.243.105:5000') + "/groups", {
-      group_members: this.state.driver_name,
-      originlatitude: this.state.originCoords[0],
-      originlongitude: this.state.originCoords[1],
-      destlatitude: this.state.destCoords[0],
-      destlongitude: this.state.destCoords[1],
-      starttime: this.state.date + " " + this.state.time
+    this.setState({
+      driver_name: prompt(
+        "What is the name of the driver or the ride initiator?"
+      )
     });
+    axios.post(
+      (process.env.BACKEND_URL || "http://18.215.243.105:5000") + "/groups",
+      {
+        group_members: this.state.driver_name,
+        originlatitude: this.state.originCoords[0],
+        originlongitude: this.state.originCoords[1],
+        destlatitude: this.state.destCoords[0],
+        destlongitude: this.state.destCoords[1],
+        starttime: this.state.date + " " + this.state.time
+      }
+    );
   }
 
   handleAddressChangeOrigin(origin) {
@@ -95,7 +109,8 @@ this.setState({data:groups});
     this.setState({ destCoords: [coords.lat, coords.lng] });
   }
 
-  handleDateChange(event) {    this.setState({ date: event });
+  handleDateChange(event) {
+    this.setState({ date: event });
   }
 
   handleTimeChange(time) {
@@ -104,12 +119,10 @@ this.setState({data:groups});
 
   handleAddPass(passengers) {
     //passengers is the recently added p
-
   }
 
   render() {
-
-   return (
+    return (
       <div>
         <Header
           onSearch={this.handleSearch}
@@ -125,8 +138,8 @@ this.setState({data:groups});
           {this.state.data.map(item => (
             <Post
               name={item.group_members.split(",")[0]}
-              origin= ""
-              destination = ""
+              origin=""
+              destination=""
               time={item.starttime}
               originCoords={[item.originlatitude, item.originlongitude]}
               destinationCoords={[item.destlatitude, item.destlongitude]}

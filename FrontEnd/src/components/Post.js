@@ -28,7 +28,7 @@ const styles = theme => ({
 class Post extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { passengers: [] };
+    this.state = { passengers: this.props.passengers.split(",") };
     this.handleClick = this.handleClick.bind(this);
   }
 
@@ -47,10 +47,10 @@ class Post extends React.Component {
       (process.env.BACKEND_URL || "http://localhost:5000") + "/groups",
       {
         personId: 1,
-        origin: this.state.originCoords[0],
-        destination: this.state.destCoords[1],
-        starttime: this.state.date + " " + this.state.time,
-        endtime: this.state.date + " " + this.state.time,
+        origin: this.props.originCoords[0],
+        destination: this.props.destinationCoords[1],
+        starttime: this.props.date + " " + this.props.time,
+        endtime: this.props.date + " " + this.props.time,
         radiusmiles: 0,
         type: "Uber",
         comment: "yeet"
