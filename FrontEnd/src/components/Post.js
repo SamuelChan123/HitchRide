@@ -14,15 +14,12 @@ import PostMap from "./PostMap";
 const styles = theme => ({
   card: {
     width: 800,
-    height: 220,
+    height: 200,
     margin: "10px",
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-between"
-  },
-  mapContainer: {
-    height: 200,
-    width: 200
+    justifyContent: "space-between",
+    alignItems: "center"
   }
 });
 
@@ -43,6 +40,7 @@ class Post extends React.Component {
 
     this.setState({ passengers });
     this.props.onAddPass(passengers);
+    console.log(this.props.name);
   }
 
   render() {
@@ -79,6 +77,7 @@ class Post extends React.Component {
             <Button
               variant="contained"
               color="primary"
+              size="large"
               onClick={this.handleClick}
             >
               Join
