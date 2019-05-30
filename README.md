@@ -24,10 +24,10 @@ By: Samuel Chan, Samarth Kishor, Benny Beinish, Devon Parikh, Reggie Cai, Joshua
 1.  Folder Structure
 2.  Dependencies
 3.  Database
-4.  Scraping Data
-5.  How to Run Project
-6.  Injecting Data (GET, POST requests)
-7.  Current Limitations
+4.  Running web-app
+5.  Injecting Data (GET, POST requests)
+6.  Future Improvements
+7.  Challenges/Limitations
 
 ## 1. Folder Structure
 
